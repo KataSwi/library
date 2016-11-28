@@ -15,6 +15,7 @@ public class ReservationEntity {
     private long readerCard;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "reservationid", nullable = false)
     public int getReservationid() {
         return reservationid;

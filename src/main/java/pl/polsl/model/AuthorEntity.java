@@ -9,11 +9,14 @@ import java.util.Collection;
 @Entity
 @Table(name = "author", schema = "public", catalog = "library")
 public class AuthorEntity {
+
     private int authorid;
     private String authorName;
     private String authorSurname;
+    private Collection<BookEntity> bookByAuthor;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "authorid", nullable = false)
     public int getAuthorid() {
         return authorid;
@@ -43,6 +46,15 @@ public class AuthorEntity {
         this.authorSurname = authorSurname;
     }
 
+    @OneToMany(mappedBy = "bookByAuthor")
+    public Collection<BookEntity> getBookByAuthor() {
+        return bookByAuthor;
+    }
+
+    public void setBookByAuthor(Collection<BookEntity> bookByAuthor) {
+        this.bookByAuthor = bookByAuthor;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -66,14 +78,4 @@ public class AuthorEntity {
         return result;
     }
 
-    private Collection<BookEntity> bookByAuthor;
-
-    @OneToMany(mappedBy = "bookByAuthor")
-    public Collection<BookEntity> getBookByAuthor() {
-        return bookByAuthor;
-    }
-
-    public void setBookByAuthor(Collection<BookEntity> bookByAuthor) {
-        this.bookByAuthor = bookByAuthor;
-    }
 }

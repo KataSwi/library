@@ -16,6 +16,7 @@ public class BorrowedbooksEntity {
     private Timestamp returnDate;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "borrowid", nullable = false)
     public int getBorrowid() {
         return borrowid;

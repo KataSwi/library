@@ -38,6 +38,9 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public List<AuthorEntity> findBySurname(String surname) {
-        return null;
+        Iterable<AuthorEntity> authors = authorRepository.findByAuthorSurname(surname);
+        List<AuthorEntity> result = new ArrayList<>();
+        authors.forEach(author -> {result.add(author);});
+        return result;
     }
 }

@@ -15,6 +15,9 @@ public class BookEntity {
     private Integer pages;
     private int genre;
     private String publisher;
+    private GenreEntity bookByGenre;
+    private AuthorEntity bookByAuthor;
+    private Collection<BookcopyEntity> bookCopy;
 
     @Id
     @Column(name = "isbn", nullable = false, length = 20)
@@ -76,6 +79,33 @@ public class BookEntity {
         this.publisher = publisher;
     }
 
+    @ManyToOne(optional = false)
+    public GenreEntity getBookByGenre() {
+        return bookByGenre;
+    }
+
+    public void setBookByGenre(GenreEntity bookByGenre) {
+        this.bookByGenre = bookByGenre;
+    }
+
+    @ManyToOne(optional = false)
+    public AuthorEntity getBookByAuthor() {
+        return bookByAuthor;
+    }
+
+    public void setBookByAuthor(AuthorEntity bookByAuthor) {
+        this.bookByAuthor = bookByAuthor;
+    }
+
+    @OneToMany(mappedBy = "bookCopy")
+    public Collection<BookcopyEntity> getBookCopy() {
+        return bookCopy;
+    }
+
+    public void setBookCopy(Collection<BookcopyEntity> bookCopy) {
+        this.bookCopy = bookCopy;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -102,38 +132,5 @@ public class BookEntity {
         result = 31 * result + genre;
         result = 31 * result + (publisher != null ? publisher.hashCode() : 0);
         return result;
-    }
-
-    private GenreEntity bookByGenre;
-
-    @ManyToOne(optional = false)
-    public GenreEntity getBookByGenre() {
-        return bookByGenre;
-    }
-
-    public void setBookByGenre(GenreEntity bookByGenre) {
-        this.bookByGenre = bookByGenre;
-    }
-
-    private AuthorEntity bookByAuthor;
-
-    @ManyToOne(optional = false)
-    public AuthorEntity getBookByAuthor() {
-        return bookByAuthor;
-    }
-
-    public void setBookByAuthor(AuthorEntity bookByAuthor) {
-        this.bookByAuthor = bookByAuthor;
-    }
-
-    private Collection<BookcopyEntity> bookCopy;
-
-    @OneToMany(mappedBy = "bookCopy")
-    public Collection<BookcopyEntity> getBookCopy() {
-        return bookCopy;
-    }
-
-    public void setBookCopy(Collection<BookcopyEntity> bookCopy) {
-        this.bookCopy = bookCopy;
     }
 }

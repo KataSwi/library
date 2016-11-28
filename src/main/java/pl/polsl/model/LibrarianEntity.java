@@ -12,6 +12,7 @@ public class LibrarianEntity {
     private String userName;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "librarianid", nullable = false)
     public long getLibrarianid() {
         return librarianid;

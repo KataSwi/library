@@ -1,5 +1,7 @@
 package pl.polsl.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 /**
@@ -105,6 +107,7 @@ public class UsersEntity {
 
     private RolesEntity usersByRole;
 
+    @JsonBackReference
     @ManyToOne(optional = false)
     public RolesEntity getUsersByRole() {
         return usersByRole;

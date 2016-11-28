@@ -13,6 +13,7 @@ public class BookstateEntity {
     private String state;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "stateid", nullable = false)
     public int getStateid() {
         return stateid;

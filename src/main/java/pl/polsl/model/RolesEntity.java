@@ -1,5 +1,7 @@
 package pl.polsl.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -13,6 +15,7 @@ public class RolesEntity {
     private String type;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "roleid", nullable = false)
     public int getRoleid() {
         return roleid;
@@ -54,7 +57,8 @@ public class RolesEntity {
 
     private Collection<UsersEntity> usersByRole;
 
-    @OneToMany(mappedBy = "usersByRole")
+    @JsonManagedReference
+    @OneToMany(mappedBy = "usersByRole", cascade = CascadeType.ALL)
     public Collection<UsersEntity> getUsersByRole() {
         return usersByRole;
     }
