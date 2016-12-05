@@ -16,6 +16,12 @@ public class UsersEntity {
     private String surname;
     private int roleid;
     private String email;
+    private long librarianid;
+    private long readerCard;
+    private RolesEntity usersByRole;
+    private ReaderEntity userReader;
+    private LibrarianEntity userLibrarian;
+
 
     @Id
     @Column(name = "user_name", nullable = false, length = 20)
@@ -77,38 +83,28 @@ public class UsersEntity {
         this.email = email;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        UsersEntity that = (UsersEntity) o;
-
-        if (roleid != that.roleid) return false;
-        if (userName != null ? !userName.equals(that.userName) : that.userName != null) return false;
-        if (password != null ? !password.equals(that.password) : that.password != null) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (surname != null ? !surname.equals(that.surname) : that.surname != null) return false;
-        if (email != null ? !email.equals(that.email) : that.email != null) return false;
-
-        return true;
+    @Basic
+    @Column(name = "librarian_id", nullable = true)
+    public long getLibrarianid() {
+        return librarianid;
     }
 
-    @Override
-    public int hashCode() {
-        int result = userName != null ? userName.hashCode() : 0;
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (surname != null ? surname.hashCode() : 0);
-        result = 31 * result + roleid;
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        return result;
+    public void setLibrarianid(long librarianid) {
+        this.librarianid = librarianid;
     }
 
-    private RolesEntity usersByRole;
+    @Basic
+    @Column(name = "reader_id", nullable = true)
+    public long getReaderCard() {
+        return readerCard;
+    }
 
-    @JsonBackReference
-    @ManyToOne(optional = false)
+    public void setReaderCard(long readerCard) {
+        this.readerCard = readerCard;
+    }
+
+    @ManyToOne
+    @JoinColumn(referencedColumnName = "roleid", name = "role_id")
     public RolesEntity getUsersByRole() {
         return usersByRole;
     }
@@ -117,9 +113,8 @@ public class UsersEntity {
         this.usersByRole = usersByRole;
     }
 
-    private ReaderEntity userReader;
-
-    @OneToOne(optional = false)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "reader_id", referencedColumnName = "card_number", insertable = false, updatable = false)
     public ReaderEntity getUserReader() {
         return userReader;
     }
@@ -128,14 +123,44 @@ public class UsersEntity {
         this.userReader = userReader;
     }
 
-    private LibrarianEntity userLibrarian;
-
-    @OneToOne(optional = false)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "librarian_id",referencedColumnName = "librarianid", insertable = false, updatable = false)
     public LibrarianEntity getUserLibrarian() {
         return userLibrarian;
     }
 
     public void setUserLibrarian(LibrarianEntity userLibrarian) {
         this.userLibrarian = userLibrarian;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UsersEntity that = (UsersEntity) o;
+
+        if (roleid != that.roleid) return false;
+        if (librarianid != that.librarianid) return false;
+        if (readerCard != that.readerCard) return false;
+        if (!userName.equals(that.userName)) return false;
+        if (!password.equals(that.password)) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (surname != null ? !surname.equals(that.surname) : that.surname != null) return false;
+        return email != null ? email.equals(that.email) : that.email == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = userName.hashCode();
+        result = 31 * result + password.hashCode();
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (surname != null ? surname.hashCode() : 0);
+        result = 31 * result + roleid;
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (int) (librarianid ^ (librarianid >>> 32));
+        result = 31 * result + (int) (readerCard ^ (readerCard >>> 32));
+        return result;
     }
 }

@@ -13,6 +13,8 @@ public class ReservationEntity {
     private Timestamp expDate;
     private long reservedBook;
     private long readerCard;
+    private ReaderEntity readerByReservation;
+    private BookcopyEntity bookByReservation;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,6 +57,24 @@ public class ReservationEntity {
         this.readerCard = readerCard;
     }
 
+    @ManyToOne(optional = false)
+    public ReaderEntity getReaderByReservation() {
+        return readerByReservation;
+    }
+
+    public void setReaderByReservation(ReaderEntity readerByReservation) {
+        this.readerByReservation = readerByReservation;
+    }
+
+    @ManyToOne(optional = false)
+    public BookcopyEntity getBookByReservation() {
+        return bookByReservation;
+    }
+
+    public void setBookByReservation(BookcopyEntity bookByReservation) {
+        this.bookByReservation = bookByReservation;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -79,25 +99,4 @@ public class ReservationEntity {
         return result;
     }
 
-    private ReaderEntity readerByReservation;
-
-    @ManyToOne(optional = false)
-    public ReaderEntity getReaderByReservation() {
-        return readerByReservation;
-    }
-
-    public void setReaderByReservation(ReaderEntity readerByReservation) {
-        this.readerByReservation = readerByReservation;
-    }
-
-    private BookcopyEntity bookByReservation;
-
-    @ManyToOne(optional = false)
-    public BookcopyEntity getBookByReservation() {
-        return bookByReservation;
-    }
-
-    public void setBookByReservation(BookcopyEntity bookByReservation) {
-        this.bookByReservation = bookByReservation;
-    }
 }

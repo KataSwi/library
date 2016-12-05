@@ -16,11 +16,16 @@ import java.util.List;
 /**
  * Created by Katarzyna on 27.11.2016.
  */
-@RequestMapping("/users")
+@RequestMapping(value = "/users")
 @RestController
 public class UsersController {
     @Autowired
     private UserService userService;
+
+    @RequestMapping("/")
+    public String home() {
+        return "index";
+    }
 
     @RequestMapping(value = "/create",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UsersEntity> createAuthor(@RequestBody UsersEntity user){

@@ -11,6 +11,9 @@ import java.util.Collection;
 public class ReaderEntity {
     private long cardNumber;
     private String userName;
+    private UsersEntity readerUser;
+    private Collection<BorrowedbooksEntity> readerByBorrowedBooks;
+    private Collection<ReservationEntity> readerByReservation;
 
     @Id
     @Column(name = "card_number", nullable = false)
@@ -32,6 +35,33 @@ public class ReaderEntity {
         this.userName = userName;
     }
 
+    @OneToOne(mappedBy = "userReader", cascade = CascadeType.ALL)
+    public UsersEntity getReaderUser() {
+        return readerUser;
+    }
+
+    public void setReaderUser(UsersEntity readerUser) {
+        this.readerUser = readerUser;
+    }
+
+    @OneToMany(mappedBy = "readerByBorrowedBooks")
+    public Collection<BorrowedbooksEntity> getReaderByBorrowedBooks() {
+        return readerByBorrowedBooks;
+    }
+
+    public void setReaderByBorrowedBooks(Collection<BorrowedbooksEntity> readerByBorrowedBooks) {
+        this.readerByBorrowedBooks = readerByBorrowedBooks;
+    }
+
+    @OneToMany(mappedBy = "readerByReservation")
+    public Collection<ReservationEntity> getReaderByReservation() {
+        return readerByReservation;
+    }
+
+    public void setReaderByReservation(Collection<ReservationEntity> readerByReservation) {
+        this.readerByReservation = readerByReservation;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -50,39 +80,6 @@ public class ReaderEntity {
         int result = (int) (cardNumber ^ (cardNumber >>> 32));
         result = 31 * result + (userName != null ? userName.hashCode() : 0);
         return result;
-    }
-
-    private UsersEntity readerUser;
-
-    @OneToOne(mappedBy = "userReader", optional = false)
-    public UsersEntity getReaderUser() {
-        return readerUser;
-    }
-
-    public void setReaderUser(UsersEntity readerUser) {
-        this.readerUser = readerUser;
-    }
-
-    private Collection<BorrowedbooksEntity> readerByBorrowedBooks;
-
-    @OneToMany(mappedBy = "readerByBorrowedBooks")
-    public Collection<BorrowedbooksEntity> getReaderByBorrowedBooks() {
-        return readerByBorrowedBooks;
-    }
-
-    public void setReaderByBorrowedBooks(Collection<BorrowedbooksEntity> readerByBorrowedBooks) {
-        this.readerByBorrowedBooks = readerByBorrowedBooks;
-    }
-
-    private Collection<ReservationEntity> readerByReservation;
-
-    @OneToMany(mappedBy = "readerByReservation")
-    public Collection<ReservationEntity> getReaderByReservation() {
-        return readerByReservation;
-    }
-
-    public void setReaderByReservation(Collection<ReservationEntity> readerByReservation) {
-        this.readerByReservation = readerByReservation;
     }
 
 }

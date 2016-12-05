@@ -15,6 +15,7 @@ public class BookEntity {
     private Integer pages;
     private int genre;
     private String publisher;
+    private long bookInventory;
     private GenreEntity bookByGenre;
     private AuthorEntity bookByAuthor;
     private Collection<BookcopyEntity> bookCopy;
@@ -79,7 +80,18 @@ public class BookEntity {
         this.publisher = publisher;
     }
 
-    @ManyToOne(optional = false)
+    @Basic
+    @Column(name = "book_inventory", nullable = true)
+    public long getBookInventory() {
+        return bookInventory;
+    }
+
+    public void setBookInventory(long bookInventory) {
+        this.bookInventory = bookInventory;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "genre", referencedColumnName = "genreid", insertable = false, updatable = false)
     public GenreEntity getBookByGenre() {
         return bookByGenre;
     }
@@ -88,7 +100,8 @@ public class BookEntity {
         this.bookByGenre = bookByGenre;
     }
 
-    @ManyToOne(optional = false)
+    @ManyToOne
+    @JoinColumn(name = "author", referencedColumnName = "authorid", insertable = false, updatable = false)
     public AuthorEntity getBookByAuthor() {
         return bookByAuthor;
     }

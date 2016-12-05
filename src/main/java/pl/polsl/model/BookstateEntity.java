@@ -11,6 +11,7 @@ import java.util.Collection;
 public class BookstateEntity {
     private int stateid;
     private String state;
+    private Collection<BookcopyEntity> bookByState;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +34,15 @@ public class BookstateEntity {
         this.state = state;
     }
 
+    @OneToMany(mappedBy = "bookByState")
+    public Collection<BookcopyEntity> getBookByState() {
+        return bookByState;
+    }
+
+    public void setBookByState(Collection<BookcopyEntity> bookByState) {
+        this.bookByState = bookByState;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -53,14 +63,4 @@ public class BookstateEntity {
         return result;
     }
 
-    private Collection<BookcopyEntity> bookByState;
-
-    @OneToMany(mappedBy = "bookByState")
-    public Collection<BookcopyEntity> getBookByState() {
-        return bookByState;
-    }
-
-    public void setBookByState(Collection<BookcopyEntity> bookByState) {
-        this.bookByState = bookByState;
-    }
 }

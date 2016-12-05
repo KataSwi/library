@@ -12,6 +12,9 @@ public class BookcopyEntity {
     private long inventory;
     private String isbn;
     private int state;
+    private BookstateEntity bookByState;
+    private Collection<ReservationEntity> bookByReservation;
+    private BookEntity bookCopy;
 
     @Id
     @Column(name = "inventory", nullable = false)
@@ -43,6 +46,33 @@ public class BookcopyEntity {
         this.state = state;
     }
 
+    @ManyToOne(optional = false)
+    public BookstateEntity getBookByState() {
+        return bookByState;
+    }
+
+    public void setBookByState(BookstateEntity bookByState) {
+        this.bookByState = bookByState;
+    }
+
+    @OneToMany(mappedBy = "bookByReservation")
+    public Collection<ReservationEntity> getBookByReservation() {
+        return bookByReservation;
+    }
+
+    public void setBookByReservation(Collection<ReservationEntity> bookByReservation) {
+        this.bookByReservation = bookByReservation;
+    }
+
+    @ManyToOne(optional = false)
+    public BookEntity getBookCopy() {
+        return bookCopy;
+    }
+
+    public void setBookCopy(BookEntity bookCopy) {
+        this.bookCopy = bookCopy;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -65,36 +95,4 @@ public class BookcopyEntity {
         return result;
     }
 
-    private BookstateEntity bookByState;
-
-    @ManyToOne(optional = false)
-    public BookstateEntity getBookByState() {
-        return bookByState;
-    }
-
-    public void setBookByState(BookstateEntity bookByState) {
-        this.bookByState = bookByState;
-    }
-
-    private Collection<ReservationEntity> bookByReservation;
-
-    @OneToMany(mappedBy = "bookByReservation")
-    public Collection<ReservationEntity> getBookByReservation() {
-        return bookByReservation;
-    }
-
-    public void setBookByReservation(Collection<ReservationEntity> bookByReservation) {
-        this.bookByReservation = bookByReservation;
-    }
-
-    private BookEntity bookCopy;
-
-    @ManyToOne(optional = false)
-    public BookEntity getBookCopy() {
-        return bookCopy;
-    }
-
-    public void setBookCopy(BookEntity bookCopy) {
-        this.bookCopy = bookCopy;
-    }
 }

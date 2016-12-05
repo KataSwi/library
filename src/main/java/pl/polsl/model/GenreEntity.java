@@ -11,6 +11,7 @@ import java.util.Collection;
 public class GenreEntity {
     private int genreid;
     private String type;
+    private Collection<BookEntity> bookByGenre;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +34,15 @@ public class GenreEntity {
         this.type = type;
     }
 
+    @OneToMany(mappedBy = "bookByGenre", cascade = CascadeType.ALL)
+    public Collection<BookEntity> getBookByGenre() {
+        return bookByGenre;
+    }
+
+    public void setBookByGenre(Collection<BookEntity> bookByGenre) {
+        this.bookByGenre = bookByGenre;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -53,14 +63,4 @@ public class GenreEntity {
         return result;
     }
 
-    private Collection<BookEntity> bookByGenre;
-
-    @OneToMany(mappedBy = "bookByGenre")
-    public Collection<BookEntity> getBookByGenre() {
-        return bookByGenre;
-    }
-
-    public void setBookByGenre(Collection<BookEntity> bookByGenre) {
-        this.bookByGenre = bookByGenre;
-    }
 }

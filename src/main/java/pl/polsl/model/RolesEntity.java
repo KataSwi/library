@@ -13,6 +13,7 @@ import java.util.Collection;
 public class RolesEntity {
     private int roleid;
     private String type;
+    private Collection<UsersEntity> usersByRole;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +36,15 @@ public class RolesEntity {
         this.type = type;
     }
 
+    @OneToMany(mappedBy = "usersByRole", cascade = CascadeType.ALL)
+    public Collection<UsersEntity> getUsersByRole() {
+        return usersByRole;
+    }
+
+    public void setUsersByRole(Collection<UsersEntity> usersByRole) {
+        this.usersByRole = usersByRole;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -55,15 +65,4 @@ public class RolesEntity {
         return result;
     }
 
-    private Collection<UsersEntity> usersByRole;
-
-    @JsonManagedReference
-    @OneToMany(mappedBy = "usersByRole", cascade = CascadeType.ALL)
-    public Collection<UsersEntity> getUsersByRole() {
-        return usersByRole;
-    }
-
-    public void setUsersByRole(Collection<UsersEntity> usersByRole) {
-        this.usersByRole = usersByRole;
-    }
 }

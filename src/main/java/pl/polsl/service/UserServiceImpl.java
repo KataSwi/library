@@ -34,11 +34,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UsersEntity findByUserUserName(String userName) {
-        return null;
+        return userRepository.findByUserName(userName);
     }
 
     @Override
     public List<UsersEntity> findByUserSurname(String userSurname) {
-        return null;
+        return userRepository.findBySurname(userSurname);
     }
 }

@@ -10,6 +10,7 @@ import javax.persistence.*;
 public class LibrarianEntity {
     private long librarianid;
     private String userName;
+    private UsersEntity librarianUser;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +33,15 @@ public class LibrarianEntity {
         this.userName = userName;
     }
 
+    @OneToOne(mappedBy = "userLibrarian", cascade = CascadeType.ALL)
+    public UsersEntity getLibrarianUser() {
+        return librarianUser;
+    }
+
+    public void setLibrarianUser(UsersEntity librarianUser) {
+        this.librarianUser = librarianUser;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -52,14 +62,4 @@ public class LibrarianEntity {
         return result;
     }
 
-    private UsersEntity librarianUser;
-
-    @OneToOne(mappedBy = "userLibrarian", optional = false)
-    public UsersEntity getLibrarianUser() {
-        return librarianUser;
-    }
-
-    public void setLibrarianUser(UsersEntity librarianUser) {
-        this.librarianUser = librarianUser;
-    }
 }

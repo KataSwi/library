@@ -14,6 +14,7 @@ public class BorrowedbooksEntity {
     private long bookInventory;
     private Timestamp borrowedDate;
     private Timestamp returnDate;
+    private ReaderEntity readerByBorrowedBooks;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,6 +67,15 @@ public class BorrowedbooksEntity {
         this.returnDate = returnDate;
     }
 
+    @ManyToOne(optional = false)
+    public ReaderEntity getReaderByBorrowedBooks() {
+        return readerByBorrowedBooks;
+    }
+
+    public void setReaderByBorrowedBooks(ReaderEntity readerByBorrowedBooks) {
+        this.readerByBorrowedBooks = readerByBorrowedBooks;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -92,14 +102,4 @@ public class BorrowedbooksEntity {
         return result;
     }
 
-    private ReaderEntity readerByBorrowedBooks;
-
-    @ManyToOne(optional = false)
-    public ReaderEntity getReaderByBorrowedBooks() {
-        return readerByBorrowedBooks;
-    }
-
-    public void setReaderByBorrowedBooks(ReaderEntity readerByBorrowedBooks) {
-        this.readerByBorrowedBooks = readerByBorrowedBooks;
-    }
 }

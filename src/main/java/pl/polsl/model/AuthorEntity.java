@@ -9,7 +9,6 @@ import java.util.Collection;
 @Entity
 @Table(name = "author", schema = "public", catalog = "library")
 public class AuthorEntity {
-
     private int authorid;
     private String authorName;
     private String authorSurname;
@@ -46,7 +45,7 @@ public class AuthorEntity {
         this.authorSurname = authorSurname;
     }
 
-    @OneToMany(mappedBy = "bookByAuthor")
+    @OneToMany(mappedBy = "bookByAuthor", cascade = CascadeType.ALL)
     public Collection<BookEntity> getBookByAuthor() {
         return bookByAuthor;
     }
