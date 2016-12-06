@@ -1,7 +1,15 @@
 package pl.polsl.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import pl.polsl.dto.ReaderDTO;
+import pl.polsl.model.ReaderEntity;
+import pl.polsl.service.ReaderService;
+
+import java.util.List;
 
 /**
  * Created by Katarzyna on 30.11.2016.
@@ -10,8 +18,30 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/reader")
 public class ReaderController {
 
+    @Autowired
+    ReaderService readerService;
+
     @RequestMapping("/")
     public String home() {
         return "index";
+    }
+
+    @RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ReaderDTO> createReader(@RequestBody ReaderDTO reader){
+        reader = readerService.createReader(reader);
+        return new ResponseEntity<ReaderDTO>(reader, HttpStatus.OK);
+
+    }
+
+    @RequestMapping(value = "/{id}/find", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ReaderDTO> getReader(@PathVariable("id") Long cardNumber){
+        ReaderDTO foundReader = readerService.findReaderByCardNumber(cardNumber);
+        return new ResponseEntity<ReaderDTO>(foundReader,HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/findAll",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ReaderDTO>> getAllReaders(){
+        List<ReaderDTO> foundReaders = readerService.findAllReaders();
+        return new ResponseEntity<List<ReaderDTO>>(foundReaders,HttpStatus.OK);
     }
 }

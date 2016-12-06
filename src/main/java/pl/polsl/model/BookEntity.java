@@ -9,19 +9,47 @@ import java.util.Collection;
 @Entity
 @Table(name = "book", schema = "public", catalog = "library")
 public class BookEntity {
-    private String isbn;
-    private String title;
-    private int author;
-    private Integer pages;
-    private int genre;
-    private String publisher;
-    private long bookInventory;
-    private GenreEntity bookByGenre;
-    private AuthorEntity bookByAuthor;
-    private Collection<BookcopyEntity> bookCopy;
 
     @Id
     @Column(name = "isbn", nullable = false, length = 20)
+    private String isbn;
+
+    @Basic
+    @Column(name = "title", nullable = false, length = 100)
+    private String title;
+
+    @Basic
+    @Column(name = "author", nullable = false)
+    private int author;
+
+    @Basic
+    @Column(name = "pages")
+    private Integer pages;
+
+    @Basic
+    @Column(name = "genre", nullable = false)
+    private int genre;
+
+    @Basic
+    @Column(name = "publisher", length = 50)
+    private String publisher;
+
+    @Basic
+    @Column(name = "book_inventory")
+    private long bookInventory;
+
+    @ManyToOne
+    @JoinColumn(name = "genre", referencedColumnName = "genreid", insertable = false, updatable = false)
+    private GenreEntity bookByGenre;
+
+    @ManyToOne
+    @JoinColumn(name = "author", referencedColumnName = "authorid", insertable = false, updatable = false)
+    private AuthorEntity bookByAuthor;
+
+    @OneToMany(mappedBy = "bookCopy", cascade = CascadeType.ALL)
+    private Collection<BookcopyEntity> bookCopy;
+
+
     public String getIsbn() {
         return isbn;
     }
@@ -30,8 +58,6 @@ public class BookEntity {
         this.isbn = isbn;
     }
 
-    @Basic
-    @Column(name = "title", nullable = false, length = 50)
     public String getTitle() {
         return title;
     }
@@ -40,8 +66,6 @@ public class BookEntity {
         this.title = title;
     }
 
-    @Basic
-    @Column(name = "author", nullable = false)
     public int getAuthor() {
         return author;
     }
@@ -50,8 +74,6 @@ public class BookEntity {
         this.author = author;
     }
 
-    @Basic
-    @Column(name = "pages", nullable = true)
     public Integer getPages() {
         return pages;
     }
@@ -60,8 +82,6 @@ public class BookEntity {
         this.pages = pages;
     }
 
-    @Basic
-    @Column(name = "genre", nullable = false)
     public int getGenre() {
         return genre;
     }
@@ -70,8 +90,6 @@ public class BookEntity {
         this.genre = genre;
     }
 
-    @Basic
-    @Column(name = "publisher", nullable = true, length = 50)
     public String getPublisher() {
         return publisher;
     }
@@ -80,8 +98,6 @@ public class BookEntity {
         this.publisher = publisher;
     }
 
-    @Basic
-    @Column(name = "book_inventory", nullable = true)
     public long getBookInventory() {
         return bookInventory;
     }
@@ -90,8 +106,6 @@ public class BookEntity {
         this.bookInventory = bookInventory;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "genre", referencedColumnName = "genreid", insertable = false, updatable = false)
     public GenreEntity getBookByGenre() {
         return bookByGenre;
     }
@@ -100,8 +114,6 @@ public class BookEntity {
         this.bookByGenre = bookByGenre;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "author", referencedColumnName = "authorid", insertable = false, updatable = false)
     public AuthorEntity getBookByAuthor() {
         return bookByAuthor;
     }
@@ -110,7 +122,6 @@ public class BookEntity {
         this.bookByAuthor = bookByAuthor;
     }
 
-    @OneToMany(mappedBy = "bookCopy")
     public Collection<BookcopyEntity> getBookCopy() {
         return bookCopy;
     }

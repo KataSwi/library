@@ -1,6 +1,6 @@
 package pl.polsl.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -10,21 +10,43 @@ import javax.persistence.*;
 @Entity
 @Table(name = "users", schema = "public", catalog = "library")
 public class UsersEntity {
-    private String userName;
-    private String password;
-    private String name;
-    private String surname;
-    private int roleid;
-    private String email;
-    private long librarianid;
-    private long readerCard;
-    private RolesEntity usersByRole;
-    private ReaderEntity userReader;
-    private LibrarianEntity userLibrarian;
-
 
     @Id
-    @Column(name = "user_name", nullable = false, length = 20)
+    @Column(name = "user_name", nullable = false, length = 30)
+    private String userName;
+
+    @Basic
+    @Column(name = "password", nullable = false, length = 20)
+    private String password;
+
+    @Basic
+    @Column(name = "name", length = 20)
+    private String name;
+
+    @Basic
+    @Column(name = "surname", length = 50)
+    private String surname;
+
+    @Basic
+    @Column(name = "roleid", nullable = false)
+    private int roleid;
+
+    @Basic
+    @Column(name = "email", length = 50)
+    private String email;
+
+    @ManyToOne
+    @JoinColumn(referencedColumnName = "roleid", name = "roleid", insertable = false, updatable = false)
+    private RolesEntity usersByRole;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "readerUser", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private ReaderEntity userReader;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "librarianUser",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private LibrarianEntity userLibrarian;
+
     public String getUserName() {
         return userName;
     }
@@ -33,8 +55,6 @@ public class UsersEntity {
         this.userName = userName;
     }
 
-    @Basic
-    @Column(name = "password", nullable = false, length = 20)
     public String getPassword() {
         return password;
     }
@@ -43,8 +63,6 @@ public class UsersEntity {
         this.password = password;
     }
 
-    @Basic
-    @Column(name = "name", nullable = true, length = 20)
     public String getName() {
         return name;
     }
@@ -53,8 +71,6 @@ public class UsersEntity {
         this.name = name;
     }
 
-    @Basic
-    @Column(name = "surname", nullable = true, length = 50)
     public String getSurname() {
         return surname;
     }
@@ -63,8 +79,6 @@ public class UsersEntity {
         this.surname = surname;
     }
 
-    @Basic
-    @Column(name = "roleid", nullable = false)
     public int getRoleid() {
         return roleid;
     }
@@ -73,8 +87,6 @@ public class UsersEntity {
         this.roleid = roleid;
     }
 
-    @Basic
-    @Column(name = "email", nullable = true, length = 50)
     public String getEmail() {
         return email;
     }
@@ -83,28 +95,6 @@ public class UsersEntity {
         this.email = email;
     }
 
-    @Basic
-    @Column(name = "librarian_id", nullable = true)
-    public long getLibrarianid() {
-        return librarianid;
-    }
-
-    public void setLibrarianid(long librarianid) {
-        this.librarianid = librarianid;
-    }
-
-    @Basic
-    @Column(name = "reader_id", nullable = true)
-    public long getReaderCard() {
-        return readerCard;
-    }
-
-    public void setReaderCard(long readerCard) {
-        this.readerCard = readerCard;
-    }
-
-    @ManyToOne
-    @JoinColumn(referencedColumnName = "roleid", name = "role_id")
     public RolesEntity getUsersByRole() {
         return usersByRole;
     }
@@ -113,8 +103,6 @@ public class UsersEntity {
         this.usersByRole = usersByRole;
     }
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "reader_id", referencedColumnName = "card_number", insertable = false, updatable = false)
     public ReaderEntity getUserReader() {
         return userReader;
     }
@@ -123,8 +111,6 @@ public class UsersEntity {
         this.userReader = userReader;
     }
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "librarian_id",referencedColumnName = "librarianid", insertable = false, updatable = false)
     public LibrarianEntity getUserLibrarian() {
         return userLibrarian;
     }
@@ -141,8 +127,6 @@ public class UsersEntity {
         UsersEntity that = (UsersEntity) o;
 
         if (roleid != that.roleid) return false;
-        if (librarianid != that.librarianid) return false;
-        if (readerCard != that.readerCard) return false;
         if (!userName.equals(that.userName)) return false;
         if (!password.equals(that.password)) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
@@ -159,8 +143,6 @@ public class UsersEntity {
         result = 31 * result + (surname != null ? surname.hashCode() : 0);
         result = 31 * result + roleid;
         result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (int) (librarianid ^ (librarianid >>> 32));
-        result = 31 * result + (int) (readerCard ^ (readerCard >>> 32));
         return result;
     }
 }

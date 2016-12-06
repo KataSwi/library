@@ -9,13 +9,20 @@ import java.util.Collection;
 @Entity
 @Table(name = "genre", schema = "public", catalog = "library")
 public class GenreEntity {
-    private int genreid;
-    private String type;
-    private Collection<BookEntity> bookByGenre;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "genreid", nullable = false)
+    private int genreid;
+
+    @Basic
+    @Column(name = "type", length = 30)
+    private String type;
+
+    @OneToMany(mappedBy = "bookByGenre", cascade = CascadeType.ALL)
+    private Collection<BookEntity> bookByGenre;
+
+
     public int getGenreid() {
         return genreid;
     }
@@ -24,8 +31,6 @@ public class GenreEntity {
         this.genreid = genreid;
     }
 
-    @Basic
-    @Column(name = "type", nullable = true, length = 30)
     public String getType() {
         return type;
     }
@@ -34,7 +39,6 @@ public class GenreEntity {
         this.type = type;
     }
 
-    @OneToMany(mappedBy = "bookByGenre", cascade = CascadeType.ALL)
     public Collection<BookEntity> getBookByGenre() {
         return bookByGenre;
     }

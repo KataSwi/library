@@ -9,14 +9,26 @@ import java.util.Collection;
 @Entity
 @Table(name = "reader", schema = "public", catalog = "library")
 public class ReaderEntity {
-    private long cardNumber;
-    private String userName;
-    private UsersEntity readerUser;
-    private Collection<BorrowedbooksEntity> readerByBorrowedBooks;
-    private Collection<ReservationEntity> readerByReservation;
 
     @Id
     @Column(name = "card_number", nullable = false)
+    private long cardNumber;
+
+    @Basic
+    @Column(name = "user_name", nullable = false, length = 20)
+    private String userName;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "user_name", referencedColumnName = "user_name", insertable = false, updatable = false)
+    private UsersEntity readerUser;
+
+    @OneToMany(mappedBy = "readerByBorrowedBooks", cascade = CascadeType.ALL)
+    private Collection<BorrowedbooksEntity> readerByBorrowedBooks;
+
+    @OneToMany(mappedBy = "readerByReservation", cascade = CascadeType.ALL)
+    private Collection<ReservationEntity> readerByReservation;
+
+
     public long getCardNumber() {
         return cardNumber;
     }
@@ -25,8 +37,6 @@ public class ReaderEntity {
         this.cardNumber = cardNumber;
     }
 
-    @Basic
-    @Column(name = "user_name", nullable = false, length = 20)
     public String getUserName() {
         return userName;
     }
@@ -35,7 +45,6 @@ public class ReaderEntity {
         this.userName = userName;
     }
 
-    @OneToOne(mappedBy = "userReader", cascade = CascadeType.ALL)
     public UsersEntity getReaderUser() {
         return readerUser;
     }
@@ -44,7 +53,6 @@ public class ReaderEntity {
         this.readerUser = readerUser;
     }
 
-    @OneToMany(mappedBy = "readerByBorrowedBooks")
     public Collection<BorrowedbooksEntity> getReaderByBorrowedBooks() {
         return readerByBorrowedBooks;
     }
@@ -53,7 +61,6 @@ public class ReaderEntity {
         this.readerByBorrowedBooks = readerByBorrowedBooks;
     }
 
-    @OneToMany(mappedBy = "readerByReservation")
     public Collection<ReservationEntity> getReaderByReservation() {
         return readerByReservation;
     }

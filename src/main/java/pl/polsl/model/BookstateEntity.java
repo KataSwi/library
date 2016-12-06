@@ -9,13 +9,19 @@ import java.util.Collection;
 @Entity
 @Table(name = "bookstate", schema = "public", catalog = "library")
 public class BookstateEntity {
-    private int stateid;
-    private String state;
-    private Collection<BookcopyEntity> bookByState;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "stateid", nullable = false)
+    private int stateid;
+
+    @Basic
+    @Column(name = "state", length = 20)
+    private String state;
+
+    @OneToMany(mappedBy = "bookByState", cascade = CascadeType.ALL)
+    private Collection<BookcopyEntity> bookByState;
+
     public int getStateid() {
         return stateid;
     }
@@ -24,8 +30,6 @@ public class BookstateEntity {
         this.stateid = stateid;
     }
 
-    @Basic
-    @Column(name = "state", nullable = true, length = 10)
     public String getState() {
         return state;
     }
@@ -34,7 +38,6 @@ public class BookstateEntity {
         this.state = state;
     }
 
-    @OneToMany(mappedBy = "bookByState")
     public Collection<BookcopyEntity> getBookByState() {
         return bookByState;
     }

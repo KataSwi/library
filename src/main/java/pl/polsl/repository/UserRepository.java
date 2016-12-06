@@ -3,6 +3,7 @@ package pl.polsl.repository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import pl.polsl.model.UsersEntity;
 
 import java.util.List;
@@ -12,8 +13,9 @@ import java.util.List;
  */
 @Repository
 @RepositoryRestResource
+@Transactional
 public interface UserRepository extends CrudRepository<UsersEntity,String> {
-    public UsersEntity findByUserName(String userName);
-    public List<UsersEntity> findBySurname(String surname);
-
+    UsersEntity findByUserName(String userName);
+    List<UsersEntity> findBySurname(String surname);
+    List<UsersEntity> findAll();
 }

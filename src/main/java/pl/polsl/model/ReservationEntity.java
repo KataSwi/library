@@ -9,16 +9,32 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "reservation", schema = "public", catalog = "library")
 public class ReservationEntity {
-    private int reservationid;
-    private Timestamp expDate;
-    private long reservedBook;
-    private long readerCard;
-    private ReaderEntity readerByReservation;
-    private BookcopyEntity bookByReservation;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "reservationid", nullable = false)
+    private int reservationid;
+
+    @Basic
+    @Column(name = "exp_date")
+    private Timestamp expDate;
+
+    @Basic
+    @Column(name = "reserved_book", nullable = false)
+    private long reservedBook;
+
+    @Basic
+    @Column(name = "reader_card", nullable = false)
+    private long readerCard;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "reader_card", referencedColumnName = "card_number", insertable = false, updatable = false)
+    private ReaderEntity readerByReservation;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "reserved_book", referencedColumnName = "inventory", insertable = false, updatable = false)
+    private BookcopyEntity bookByReservation;
+
     public int getReservationid() {
         return reservationid;
     }
@@ -27,8 +43,6 @@ public class ReservationEntity {
         this.reservationid = reservationid;
     }
 
-    @Basic
-    @Column(name = "exp_date", nullable = true)
     public Timestamp getExpDate() {
         return expDate;
     }
@@ -37,8 +51,6 @@ public class ReservationEntity {
         this.expDate = expDate;
     }
 
-    @Basic
-    @Column(name = "reserved_book", nullable = false)
     public long getReservedBook() {
         return reservedBook;
     }
@@ -47,8 +59,6 @@ public class ReservationEntity {
         this.reservedBook = reservedBook;
     }
 
-    @Basic
-    @Column(name = "reader_card", nullable = false)
     public long getReaderCard() {
         return readerCard;
     }
@@ -57,7 +67,6 @@ public class ReservationEntity {
         this.readerCard = readerCard;
     }
 
-    @ManyToOne(optional = false)
     public ReaderEntity getReaderByReservation() {
         return readerByReservation;
     }
@@ -66,7 +75,6 @@ public class ReservationEntity {
         this.readerByReservation = readerByReservation;
     }
 
-    @ManyToOne(optional = false)
     public BookcopyEntity getBookByReservation() {
         return bookByReservation;
     }

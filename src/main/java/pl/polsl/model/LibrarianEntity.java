@@ -8,13 +8,20 @@ import javax.persistence.*;
 @Entity
 @Table(name = "librarian", schema = "public", catalog = "library")
 public class LibrarianEntity {
-    private long librarianid;
-    private String userName;
-    private UsersEntity librarianUser;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "librarianid", nullable = false)
+    private long librarianid;
+
+    @Basic
+    @Column(name = "user_name", nullable = false, length = 20)
+    private String userName;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "user_name", referencedColumnName = "user_name", updatable = false, insertable = false)
+    private UsersEntity librarianUser;
+
     public long getLibrarianid() {
         return librarianid;
     }
@@ -23,8 +30,6 @@ public class LibrarianEntity {
         this.librarianid = librarianid;
     }
 
-    @Basic
-    @Column(name = "user_name", nullable = false, length = 20)
     public String getUserName() {
         return userName;
     }
@@ -33,7 +38,6 @@ public class LibrarianEntity {
         this.userName = userName;
     }
 
-    @OneToOne(mappedBy = "userLibrarian", cascade = CascadeType.ALL)
     public UsersEntity getLibrarianUser() {
         return librarianUser;
     }

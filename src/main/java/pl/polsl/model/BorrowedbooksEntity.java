@@ -9,16 +9,37 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "borrowedbooks", schema = "public", catalog = "library")
 public class BorrowedbooksEntity {
-    private int borrowid;
-    private long readerCard;
-    private long bookInventory;
-    private Timestamp borrowedDate;
-    private Timestamp returnDate;
-    private ReaderEntity readerByBorrowedBooks;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "borrowid", nullable = false)
+    private int borrowid;
+
+    @Basic
+    @Column(name = "reader_card", nullable = false)
+    private long readerCard;
+
+    @Basic
+    @Column(name = "book_inventory", nullable = false)
+    private long bookInventory;
+
+    @Basic
+    @Column(name = "borrowed_date")
+    private Timestamp borrowedDate;
+
+    @Basic
+    @Column(name = "return_date")
+    private Timestamp returnDate;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "reader_card", referencedColumnName = "card_number", insertable = false, updatable = false)
+    private ReaderEntity readerByBorrowedBooks;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "book_inventory", referencedColumnName = "inventory", insertable = false, updatable = false)
+    private BookcopyEntity bookByReader;
+
+
     public int getBorrowid() {
         return borrowid;
     }
@@ -27,8 +48,6 @@ public class BorrowedbooksEntity {
         this.borrowid = borrowid;
     }
 
-    @Basic
-    @Column(name = "reader_card", nullable = false)
     public long getReaderCard() {
         return readerCard;
     }
@@ -37,8 +56,6 @@ public class BorrowedbooksEntity {
         this.readerCard = readerCard;
     }
 
-    @Basic
-    @Column(name = "book_inventory", nullable = false)
     public long getBookInventory() {
         return bookInventory;
     }
@@ -47,8 +64,6 @@ public class BorrowedbooksEntity {
         this.bookInventory = bookInventory;
     }
 
-    @Basic
-    @Column(name = "borrowed_date", nullable = true)
     public Timestamp getBorrowedDate() {
         return borrowedDate;
     }
@@ -57,8 +72,6 @@ public class BorrowedbooksEntity {
         this.borrowedDate = borrowedDate;
     }
 
-    @Basic
-    @Column(name = "return_date", nullable = true)
     public Timestamp getReturnDate() {
         return returnDate;
     }
@@ -67,9 +80,16 @@ public class BorrowedbooksEntity {
         this.returnDate = returnDate;
     }
 
-    @ManyToOne(optional = false)
     public ReaderEntity getReaderByBorrowedBooks() {
         return readerByBorrowedBooks;
+    }
+
+    public BookcopyEntity getBookByReader() {
+        return bookByReader;
+    }
+
+    public void setBookByReader(BookcopyEntity bookByReader) {
+        this.bookByReader = bookByReader;
     }
 
     public void setReaderByBorrowedBooks(ReaderEntity readerByBorrowedBooks) {

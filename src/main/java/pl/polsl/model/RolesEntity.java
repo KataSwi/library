@@ -11,13 +11,20 @@ import java.util.Collection;
 @Entity
 @Table(name = "roles", schema = "public", catalog = "library")
 public class RolesEntity {
-    private int roleid;
-    private String type;
-    private Collection<UsersEntity> usersByRole;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "roleid", nullable = false)
+    private int roleid;
+
+    @Basic
+    @Column(name = "type", length = 20)
+    private String type;
+
+    @OneToMany(mappedBy = "usersByRole", cascade = CascadeType.ALL)
+    private Collection<UsersEntity> usersByRole;
+
+
     public int getRoleid() {
         return roleid;
     }
@@ -26,8 +33,6 @@ public class RolesEntity {
         this.roleid = roleid;
     }
 
-    @Basic
-    @Column(name = "type", nullable = true, length = 10)
     public String getType() {
         return type;
     }
@@ -36,7 +41,6 @@ public class RolesEntity {
         this.type = type;
     }
 
-    @OneToMany(mappedBy = "usersByRole", cascade = CascadeType.ALL)
     public Collection<UsersEntity> getUsersByRole() {
         return usersByRole;
     }

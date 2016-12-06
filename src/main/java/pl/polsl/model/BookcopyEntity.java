@@ -9,15 +9,33 @@ import java.util.Collection;
 @Entity
 @Table(name = "bookcopy", schema = "public", catalog = "library")
 public class BookcopyEntity {
-    private long inventory;
-    private String isbn;
-    private int state;
-    private BookstateEntity bookByState;
-    private Collection<ReservationEntity> bookByReservation;
-    private BookEntity bookCopy;
 
     @Id
     @Column(name = "inventory", nullable = false)
+    private long inventory;
+
+    @Basic
+    @Column(name = "isbn", nullable = false, length = 20)
+    private String isbn;
+
+    @Basic
+    @Column(name = "state", nullable = false)
+    private int state;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "state", referencedColumnName = "stateid", insertable = false, updatable = false)
+    private BookstateEntity bookByState;
+
+    @OneToMany(mappedBy = "bookByReservation", cascade = CascadeType.ALL)
+    private Collection<ReservationEntity> bookByReservation;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "isbn", referencedColumnName = "isbn", updatable = false, insertable = false)
+    private BookEntity bookCopy;
+
+    @OneToMany(mappedBy = "bookByReader", cascade = CascadeType.ALL)
+    private Collection<BorrowedbooksEntity> bookByReader;
+
     public long getInventory() {
         return inventory;
     }
@@ -26,8 +44,6 @@ public class BookcopyEntity {
         this.inventory = inventory;
     }
 
-    @Basic
-    @Column(name = "isbn", nullable = false, length = 20)
     public String getIsbn() {
         return isbn;
     }
@@ -36,8 +52,6 @@ public class BookcopyEntity {
         this.isbn = isbn;
     }
 
-    @Basic
-    @Column(name = "state", nullable = false)
     public int getState() {
         return state;
     }
@@ -46,7 +60,6 @@ public class BookcopyEntity {
         this.state = state;
     }
 
-    @ManyToOne(optional = false)
     public BookstateEntity getBookByState() {
         return bookByState;
     }
@@ -55,7 +68,6 @@ public class BookcopyEntity {
         this.bookByState = bookByState;
     }
 
-    @OneToMany(mappedBy = "bookByReservation")
     public Collection<ReservationEntity> getBookByReservation() {
         return bookByReservation;
     }
@@ -64,13 +76,20 @@ public class BookcopyEntity {
         this.bookByReservation = bookByReservation;
     }
 
-    @ManyToOne(optional = false)
     public BookEntity getBookCopy() {
         return bookCopy;
     }
 
     public void setBookCopy(BookEntity bookCopy) {
         this.bookCopy = bookCopy;
+    }
+
+    public Collection<BorrowedbooksEntity> getBookByReader() {
+        return bookByReader;
+    }
+
+    public void setBookByReader(Collection<BorrowedbooksEntity> bookByReader) {
+        this.bookByReader = bookByReader;
     }
 
     @Override
