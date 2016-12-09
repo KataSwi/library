@@ -2,6 +2,8 @@ package pl.polsl.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.polsl.dto.AuthorDTO;
+import pl.polsl.mapper.BookMapper;
 import pl.polsl.model.AuthorEntity;
 import pl.polsl.repository.AuthorRepository;
 
@@ -17,27 +19,35 @@ public class AuthorServiceImpl implements AuthorService {
     @Autowired
     private AuthorRepository authorRepository;
 
+    @Autowired
+    private BookMapper bookMapper;
+
     @Override
-    public AuthorEntity create(AuthorEntity author) {
-        AuthorEntity newAuthor = author;
-        return authorRepository.save(author);
+    public AuthorDTO create(AuthorDTO author) {
+        if(author == null){
+            return null;
+        }
+        AuthorEntity authorEntity = bookMapper.toAuthorEntity(author);
+        authorEntity = authorRepository.save(authorEntity);
+        return bookMapper.toAuthorDTO(authorEntity);
     }
 
     @Override
-    public List<AuthorEntity> findAll() {
-        Iterable<AuthorEntity> authors = authorRepository.findAll();
-        List<AuthorEntity> result = new ArrayList<>();
-        authors.forEach(author -> {result.add(author);});
+    public List<AuthorDTO> findAll() {
+        List<AuthorEntity> authors = authorRepository.findAll();
+        List<AuthorDTO> result = bookMapper.toAuthorDTOList(authors);
         return result;
     }
 
     @Override
-    public AuthorEntity findById(int id) {
-        return authorRepository.findOne(id);
+    public AuthorDTO findById(int id) {
+        AuthorEntity author = authorRepository.findOne(id);
+        return bookMapper.toAuthorDTO(author);
     }
 
     @Override
-    public List<AuthorEntity> findBySurname(String surname) {
-        return authorRepository.findByAuthorSurname(surname);
+    public List<AuthorDTO> findBySurname(String surname) {
+        List<AuthorEntity> foundAuthors = authorRepository.findByAuthorSurname(surname);
+        return bookMapper.toAuthorDTOList(foundAuthors);
     }
 }

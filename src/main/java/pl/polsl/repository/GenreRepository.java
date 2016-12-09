@@ -16,4 +16,6 @@ import java.util.List;
 @Transactional
 public interface GenreRepository extends CrudRepository<GenreEntity,Integer> {
     List<GenreEntity> findAll();
+    GenreEntity findByType(String type);
+
 }

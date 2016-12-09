@@ -34,10 +34,6 @@ public class BookEntity {
     @Column(name = "publisher", length = 50)
     private String publisher;
 
-    @Basic
-    @Column(name = "book_inventory")
-    private long bookInventory;
-
     @ManyToOne
     @JoinColumn(name = "genre", referencedColumnName = "genreid", insertable = false, updatable = false)
     private GenreEntity bookByGenre;
@@ -96,14 +92,6 @@ public class BookEntity {
 
     public void setPublisher(String publisher) {
         this.publisher = publisher;
-    }
-
-    public long getBookInventory() {
-        return bookInventory;
-    }
-
-    public void setBookInventory(long bookInventory) {
-        this.bookInventory = bookInventory;
     }
 
     public GenreEntity getBookByGenre() {

@@ -29,13 +29,13 @@ public class UsersController {
     }
 
     @RequestMapping(value = "/create",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDTO> createAuthor(@RequestBody UserDTO user){
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO user){
         UserDTO createdUser = userService.createUser(user);
         return new ResponseEntity<UserDTO>(createdUser, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/findall", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<UserDTO>> getAllAuthors(){
+    public ResponseEntity<List<UserDTO>> getAllUsers(){
         List<UserDTO> allUsers = userService.findAllUsers();
         return new ResponseEntity<List<UserDTO>>(allUsers,HttpStatus.OK);
     }
