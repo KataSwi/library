@@ -65,6 +65,9 @@ public class BookMapperImpl implements BookMapper {
         BookcopyEntity bookcopyEntity = new BookcopyEntity();
         bookcopyEntity.setInventory(bookCopyDTO.getInventory());
         bookcopyEntity.setIsbn(bookCopyDTO.getIsbn());
+        bookcopyEntity.setState(bookCopyDTO.getState());
+        bookcopyEntity.setBookCopy(toBookEntity(bookCopyDTO.getBookDTO()));
+        bookcopyEntity.setBookByState(toBookStateEntity(bookCopyDTO.getStateDTO()));
         return bookcopyEntity;
     }
 
@@ -84,8 +87,8 @@ public class BookMapperImpl implements BookMapper {
             return null;
         }
         BookCopyDTO bookCopyDTO = new BookCopyDTO();
-        bookCopyDTO.setIsbn(bookcopyEntity.getIsbn());
         bookCopyDTO.setInventory(bookcopyEntity.getInventory());
+        bookCopyDTO.setIsbn(bookcopyEntity.getIsbn());
         bookCopyDTO.setState(bookcopyEntity.getState());
         bookCopyDTO.setBookDTO(toBookDTO(bookcopyEntity.getBookCopy()));
         bookCopyDTO.setStateDTO(toBookStateDTO(bookcopyEntity.getBookByState()));

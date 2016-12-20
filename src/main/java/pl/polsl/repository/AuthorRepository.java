@@ -17,5 +17,5 @@ import java.util.List;
 public interface AuthorRepository extends CrudRepository<AuthorEntity,Integer> {
     List<AuthorEntity> findByAuthorSurname(String surname);
     List<AuthorEntity> findAll();
-
+    AuthorEntity findByAuthorNameAndAuthorSurname(String name, String surname);
 }

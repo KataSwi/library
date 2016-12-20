@@ -18,4 +18,6 @@ public interface BookRepository extends CrudRepository<BookEntity,String> {
     List<BookEntity> findByTitle(String title);
     BookEntity findByIsbn(String isbn);
     List<BookEntity> findAll();
+    List<BookEntity> findByAuthor(int authorId);
+    List<BookEntity> findByGenre(int genreId);
 }

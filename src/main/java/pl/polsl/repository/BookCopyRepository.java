@@ -1,5 +1,6 @@
 package pl.polsl.repository;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
@@ -16,4 +17,7 @@ import java.util.List;
 @Transactional
 public interface BookCopyRepository extends CrudRepository<BookcopyEntity,Long> {
     List<BookcopyEntity> findAll();
+    List<BookcopyEntity> findByIsbn(String isbn);
+    BookcopyEntity findByInventory(Long id);
+    List<BookcopyEntity> findByStateAndIsbn(int state, String isbn);
 }

@@ -1,5 +1,10 @@
 package pl.polsl.dto;
 
+import pl.polsl.model.BookEntity;
+
+import java.util.Collection;
+import java.util.List;
+
 /**
  * Created by Katarzyna on 08.12.2016.
  */
@@ -31,4 +36,5 @@ public class AuthorDTO {
     public void setAuthorSurname(String authorSurname) {
         this.authorSurname = authorSurname;
     }
+
 }

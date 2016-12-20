@@ -20,6 +20,7 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
+
     @RequestMapping("/")
     public String home() {
         return "index";
@@ -43,5 +44,16 @@ public class BookController {
         return new ResponseEntity<List<BookDTO>>(foundBooks,HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/author/{author}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<BookDTO>> getBooksByAuthor(@PathVariable String author){
+        List<BookDTO> foundBooks = bookService.findBookByAuthor(author);
+        return new ResponseEntity<List<BookDTO>>(foundBooks,HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/genre/{type}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<BookDTO>> getBooksByGenre(@PathVariable String type){
+        List<BookDTO> foundBooks = bookService.findBookByGenre(type);
+        return new ResponseEntity<List<BookDTO>>(foundBooks,HttpStatus.OK);
+    }
 
 }

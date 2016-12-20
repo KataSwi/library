@@ -11,4 +11,7 @@ public interface BookService {
     BookDTO createBook(BookDTO bookDTO);
     List<BookDTO> findAllBooks();
     List<BookDTO> findBookByTitle(String title);
+    BookDTO findBookByIsbn(String isbn);
+    List<BookDTO> findBookByAuthor(String author);
+    List<BookDTO> findBookByGenre(String genre);
 }
