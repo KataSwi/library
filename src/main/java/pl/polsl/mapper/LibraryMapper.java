@@ -86,4 +86,12 @@ public interface LibraryMapper {
     BorrowedBooksDTO toBorrowedBooksDTO(BorrowedbooksEntity borrowedbooksEntity);
 
     List<BorrowedBooksDTO> toBorrowedBooksDTOList(List<BorrowedbooksEntity> borrowedbooksEntityList);
+
+    ReservationEntity toReservationEntity(ReservationDTO reservationDTO);
+
+    List<ReservationEntity> toReservationEntityList(List<ReservationDTO> reservationEntityList);
+
+    ReservationDTO toReservationDTO(ReservationEntity reservationEntity);
+
+    List<ReservationDTO> toReservationDTOList(List<ReservationEntity> reservationEntityList);
 }

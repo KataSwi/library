@@ -30,7 +30,6 @@ public class ReaderController {
     public ResponseEntity<ReaderDTO> createReader(@RequestBody ReaderDTO reader){
         reader = readerService.createReader(reader);
         return new ResponseEntity<ReaderDTO>(reader, HttpStatus.OK);
-
     }
 
     @RequestMapping(value = "/{id}/find", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

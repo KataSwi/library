@@ -6,7 +6,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.polsl.dto.BookCopyDTO;
+import pl.polsl.dto.BorrowedBooksDTO;
 import pl.polsl.service.BookCopyService;
+import pl.polsl.service.BorrowedBooksService;
 
 import java.util.List;
 
@@ -53,6 +55,19 @@ public class BookCopyController {
     public ResponseEntity<List<BookCopyDTO>> getBookCopiesByState(@PathVariable String isbn, @PathVariable Integer id){
         List<BookCopyDTO> foundBooks = bookCopyService.findBookCopiesByState(isbn,id);
         return new ResponseEntity<List<BookCopyDTO>>(foundBooks,HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/return", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<BookCopyDTO> returnBook(@RequestBody BorrowedBooksDTO borrowedBooksDTO){
+        BookCopyDTO updated = bookCopyService.setBookStatusAsReturned(borrowedBooksDTO.getBookInventory());
+        return new ResponseEntity<BookCopyDTO>(updated,HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/borrow", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<BorrowedBooksDTO> borrowBook(@RequestBody BorrowedBooksDTO newBorrow){
+        bookCopyService.setBookStatusAsBorrowed(newBorrow.getBookInventory());
+        BorrowedBooksDTO borrowedBooksDTO = bookCopyService.addNewBorrowing(newBorrow);
+        return new ResponseEntity<BorrowedBooksDTO>(borrowedBooksDTO, HttpStatus.OK);
     }
 
 

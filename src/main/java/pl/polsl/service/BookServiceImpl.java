@@ -3,7 +3,7 @@ package pl.polsl.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.polsl.dto.BookDTO;
-import pl.polsl.mapper.BookMapper;
+import pl.polsl.mapper.LibraryMapper;
 import pl.polsl.model.AuthorEntity;
 import pl.polsl.model.BookEntity;
 import pl.polsl.model.GenreEntity;
@@ -29,35 +29,35 @@ public class BookServiceImpl implements BookService {
     private GenreRepository genreRepository;
 
     @Autowired
-    private BookMapper bookMapper;
+    private LibraryMapper libraryMapper;
 
     @Override
     public BookDTO createBook(BookDTO bookDTO) {
         if (bookDTO == null){
             return null;
         }
-        BookEntity bookEntity = bookMapper.toBookEntity(bookDTO);
+        BookEntity bookEntity = libraryMapper.toBookEntity(bookDTO);
         bookEntity = bookRepository.save(bookEntity);
-        return bookMapper.toBookDTO(bookEntity);
+        return libraryMapper.toBookDTO(bookEntity);
     }
 
     @Override
     public List<BookDTO> findAllBooks() {
         List<BookEntity> foundBooks = bookRepository.findAll();
-        return bookMapper.toBookDTOList(foundBooks);
+        return libraryMapper.toBookDTOList(foundBooks);
     }
 
     @Override
     public List<BookDTO> findBookByTitle(String title) {
         title = title.replace('_',' ');
         List<BookEntity> foundBooks = bookRepository.findByTitle(title);
-        return bookMapper.toBookDTOList(foundBooks);
+        return libraryMapper.toBookDTOList(foundBooks);
     }
 
     @Override
     public BookDTO findBookByIsbn(String isbn) {
         BookEntity foundBook = bookRepository.findByIsbn(isbn);
-        return bookMapper.toBookDTO(foundBook);
+        return libraryMapper.toBookDTO(foundBook);
     }
 
     @Override
@@ -67,13 +67,13 @@ public class BookServiceImpl implements BookService {
         String authorSurname = authorSplit[1];
         AuthorEntity findAuthor = authorRepository.findByAuthorNameAndAuthorSurname(authorName,authorSurname);
         List<BookEntity> foundBooks = bookRepository.findByAuthor(findAuthor.getAuthorid());
-        return bookMapper.toBookDTOList(foundBooks);
+        return libraryMapper.toBookDTOList(foundBooks);
     }
 
     @Override
     public List<BookDTO> findBookByGenre(String genre) {
         GenreEntity genreEntity = genreRepository.findByType(genre);
         List<BookEntity> foundBooks = bookRepository.findByGenre(genreEntity.getGenreid());
-        return bookMapper.toBookDTOList(foundBooks);
+        return libraryMapper.toBookDTOList(foundBooks);
     }
 }

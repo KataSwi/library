@@ -11,7 +11,6 @@ public class ReservationDTO {
     private long bookInventory;
     private BookCopyDTO bookCopyDTO;
     private long readerCard;
-    private ReaderDTO readerDTO;
 
     public int getReservationid() {
         return reservationid;
@@ -35,14 +34,6 @@ public class ReservationDTO {
 
     public void setBookCopyDTO(BookCopyDTO bookCopyDTO) {
         this.bookCopyDTO = bookCopyDTO;
-    }
-
-    public ReaderDTO getReaderDTO() {
-        return readerDTO;
-    }
-
-    public void setReaderDTO(ReaderDTO readerDTO) {
-        this.readerDTO = readerDTO;
     }
 
     public long getBookInventory() {

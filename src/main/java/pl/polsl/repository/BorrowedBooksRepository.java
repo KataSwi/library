@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import pl.polsl.model.BorrowedbooksEntity;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -16,4 +17,6 @@ import java.util.List;
 @Transactional
 public interface BorrowedBooksRepository extends CrudRepository<BorrowedbooksEntity,Integer> {
     List<BorrowedbooksEntity> findAll();
+    List<BorrowedbooksEntity> findByReturnDateBefore(Timestamp timestamp);
+    List<BorrowedbooksEntity> findByReaderCard(long readerCard);
 }

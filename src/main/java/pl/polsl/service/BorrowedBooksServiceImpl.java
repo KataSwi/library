@@ -7,6 +7,8 @@ import pl.polsl.mapper.LibraryMapper;
 import pl.polsl.model.BorrowedbooksEntity;
 import pl.polsl.repository.BorrowedBooksRepository;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -22,18 +24,27 @@ public class BorrowedBooksServiceImpl implements BorrowedBooksService {
     private LibraryMapper libraryMapper;
 
     @Override
-    public BorrowedBooksDTO addNewBorrowing(BorrowedBooksDTO borrowedBooksDTO) {
-        if(borrowedBooksDTO == null){
-            return null;
-        }
-        BorrowedbooksEntity borrowedbooksEntity = libraryMapper.toBorrowedBooksEntity(borrowedBooksDTO);
-        borrowedbooksEntity = borrowedBooksRepository.save(borrowedbooksEntity);
-        return libraryMapper.toBorrowedBooksDTO(borrowedbooksEntity);
-    }
-
-    @Override
     public List<BorrowedBooksDTO> findAllBorrowings() {
         List<BorrowedbooksEntity> borrowings = borrowedBooksRepository.findAll();
         return libraryMapper.toBorrowedBooksDTOList(borrowings);
     }
+
+    @Override
+    public List<BorrowedBooksDTO> findByReturnDateExpired() {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        List<BorrowedbooksEntity> borrowedbooksEntities = borrowedBooksRepository.findByReturnDateBefore(timestamp);
+        List<BorrowedBooksDTO> result = libraryMapper.toBorrowedBooksDTOList(borrowedbooksEntities);
+        return result;
+    }
+
+    @Override
+    public List<BorrowedBooksDTO> findReaderBorrowings(long readerCard) {
+        List<BorrowedbooksEntity> borrowedbooksEntities = borrowedBooksRepository.findByReaderCard(readerCard);
+        List<BorrowedBooksDTO> result = libraryMapper.toBorrowedBooksDTOList(borrowedbooksEntities);
+        return result;
+    }
+
+
+
+
 }

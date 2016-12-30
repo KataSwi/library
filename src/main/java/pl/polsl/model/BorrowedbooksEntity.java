@@ -35,7 +35,7 @@ public class BorrowedbooksEntity {
     @JoinColumn(name = "reader_card", referencedColumnName = "card_number", insertable = false, updatable = false)
     private ReaderEntity readerByBorrowedBooks;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "book_inventory", referencedColumnName = "inventory", insertable = false, updatable = false)
     private BookcopyEntity bookByReader;
 

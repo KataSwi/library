@@ -8,7 +8,6 @@ import java.sql.Timestamp;
 public class BorrowedBooksDTO {
     private int borrowid;
     private long readerCard;
-    private ReaderDTO readerDTO;
     private long bookInventory;
     private BookCopyDTO bookCopyDTO;
     private Timestamp borrowedDate;
@@ -20,14 +19,6 @@ public class BorrowedBooksDTO {
 
     public void setBorrowid(int borrowid) {
         this.borrowid = borrowid;
-    }
-
-    public ReaderDTO getReaderDTO() {
-        return readerDTO;
-    }
-
-    public void setReaderDTO(ReaderDTO readerDTO) {
-        this.readerDTO = readerDTO;
     }
 
     public BookCopyDTO getBookCopyDTO() {

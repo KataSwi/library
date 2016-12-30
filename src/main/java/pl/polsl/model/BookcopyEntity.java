@@ -22,7 +22,7 @@ public class BookcopyEntity {
     @Column(name = "state", nullable = false)
     private int state;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "state", referencedColumnName = "stateid", insertable = false, updatable = false)
     private BookstateEntity bookByState;
 

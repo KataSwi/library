@@ -12,6 +12,7 @@ import java.util.List;
  */
 @Component
 public class LibraryMapperImpl implements LibraryMapper {
+
     @Override
     public RolesEntity toRolesEntity(RoleDTO roleDTO) {
         if(roleDTO==null){
@@ -422,7 +423,6 @@ public class LibraryMapperImpl implements LibraryMapper {
         BorrowedbooksEntity borrowedbooksEntity = new BorrowedbooksEntity();
         borrowedbooksEntity.setBorrowid(borrowedBooksDTO.getBorrowid());
         borrowedbooksEntity.setReaderCard(borrowedBooksDTO.getReaderCard());
-        borrowedbooksEntity.setReaderByBorrowedBooks(toReaderEntity(borrowedBooksDTO.getReaderDTO()));
         borrowedbooksEntity.setBookInventory(borrowedBooksDTO.getBookInventory());
         borrowedbooksEntity.setBookByReader(toBookCopyEntity(borrowedBooksDTO.getBookCopyDTO()));
         borrowedbooksEntity.setBorrowedDate(borrowedBooksDTO.getBorrowedDate());
@@ -448,7 +448,6 @@ public class LibraryMapperImpl implements LibraryMapper {
         BorrowedBooksDTO borrowedBooksDTO = new BorrowedBooksDTO();
         borrowedBooksDTO.setBorrowid(borrowedbooksEntity.getBorrowid());
         borrowedBooksDTO.setReaderCard(borrowedbooksEntity.getReaderCard());
-        borrowedBooksDTO.setReaderDTO(toReaderDTO(borrowedbooksEntity.getReaderByBorrowedBooks()));
         borrowedBooksDTO.setBookInventory(borrowedbooksEntity.getBookInventory());
         borrowedBooksDTO.setBookCopyDTO(toBookCopyDTO(borrowedbooksEntity.getBookByReader()));
         borrowedBooksDTO.setBorrowedDate(borrowedbooksEntity.getBorrowedDate());
@@ -464,5 +463,52 @@ public class LibraryMapperImpl implements LibraryMapper {
         List<BorrowedBooksDTO> result = new ArrayList<>();
         borrowedbooksEntityList.forEach(borrowedbooksEntity -> result.add(toBorrowedBooksDTO(borrowedbooksEntity)));
         return result;
+    }
+
+    @Override
+    public ReservationEntity toReservationEntity(ReservationDTO reservationDTO) {
+        if(reservationDTO == null){
+            return null;
+        }
+        ReservationEntity reservationEntity = new ReservationEntity();
+        reservationEntity.setReservationid(reservationDTO.getReservationid());
+        reservationEntity.setReservedBook(reservationDTO.getBookInventory());
+        reservationEntity.setBookByReservation(toBookCopyEntity(reservationDTO.getBookCopyDTO()));
+        reservationEntity.setExpDate(reservationDTO.getExpDate());
+        return reservationEntity;
+    }
+
+    @Override
+    public List<ReservationEntity> toReservationEntityList(List<ReservationDTO> reservationEntityList) {
+        if(reservationEntityList == null){
+            return null;
+        }
+        List<ReservationEntity> result = new ArrayList<>();
+        reservationEntityList.forEach(reservationDTO -> result.add(toReservationEntity(reservationDTO)));
+        return result;
+    }
+
+    @Override
+    public ReservationDTO toReservationDTO(ReservationEntity reservationEntity) {
+        if(reservationEntity == null){
+            return null;
+        }
+        ReservationDTO reservationDTO = new ReservationDTO();
+        reservationDTO.setReservationid(reservationEntity.getReservationid());
+        reservationDTO.setBookInventory(reservationEntity.getReservedBook());
+        reservationDTO.setReaderCard(reservationEntity.getReaderCard());
+        reservationDTO.setBookCopyDTO(toBookCopyDTO(reservationEntity.getBookByReservation()));
+        reservationDTO.setExpDate(reservationEntity.getExpDate());
+        return reservationDTO;
+    }
+
+    @Override
+    public List<ReservationDTO> toReservationDTOList(List<ReservationEntity> reservationEntityList) {
+        if (reservationEntityList == null){
+            return null;
+        }
+        List<ReservationDTO> reservationDTOs = new ArrayList<>();
+        reservationEntityList.forEach(reservationEntity -> reservationDTOs.add(toReservationDTO(reservationEntity)));
+        return reservationDTOs;
     }
 }

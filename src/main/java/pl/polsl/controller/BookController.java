@@ -20,7 +20,6 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
-
     @RequestMapping("/")
     public String home() {
         return "index";

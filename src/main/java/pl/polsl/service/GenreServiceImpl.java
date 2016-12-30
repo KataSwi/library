@@ -3,7 +3,7 @@ package pl.polsl.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.polsl.dto.GenreDTO;
-import pl.polsl.mapper.BookMapper;
+import pl.polsl.mapper.LibraryMapper;
 import pl.polsl.model.GenreEntity;
 import pl.polsl.repository.GenreRepository;
 
@@ -19,34 +19,34 @@ public class GenreServiceImpl implements GenreService{
     private GenreRepository genreRepository;
 
     @Autowired
-    private BookMapper bookMapper;
+    private LibraryMapper libraryMapper;
 
     @Override
     public GenreDTO createGenre(GenreDTO genreDTO) {
         if(genreDTO == null){
             return null;
         }
-        GenreEntity genreEntity = bookMapper.toGenreEntity(genreDTO);
+        GenreEntity genreEntity = libraryMapper.toGenreEntity(genreDTO);
         genreEntity = genreRepository.save(genreEntity);
-        return bookMapper.toGenreDTO(genreEntity);
+        return libraryMapper.toGenreDTO(genreEntity);
     }
 
     @Override
     public List<GenreDTO> findAllGenres() {
         List<GenreEntity> genreEntityList = genreRepository.findAll();
-        List<GenreDTO> genreDTOList = bookMapper.toGenreDTOList(genreEntityList);
+        List<GenreDTO> genreDTOList = libraryMapper.toGenreDTOList(genreEntityList);
         return genreDTOList;
     }
 
     @Override
     public GenreDTO findOneGenre(int id) {
         GenreEntity foundGenre = genreRepository.findOne(id);
-        return bookMapper.toGenreDTO(foundGenre);
+        return libraryMapper.toGenreDTO(foundGenre);
     }
 
     @Override
     public GenreDTO findGenreType(String type) {
         GenreEntity foundGenre = genreRepository.findByType(type);
-        return bookMapper.toGenreDTO(foundGenre);
+        return libraryMapper.toGenreDTO(foundGenre);
     }
 }
