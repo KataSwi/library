@@ -1,5 +1,7 @@
 package pl.polsl.service;
 
+import pl.polsl.dto.LibrarianDTO;
+import pl.polsl.dto.ReaderDTO;
 import pl.polsl.dto.UserDTO;
 import pl.polsl.model.UsersEntity;
 
@@ -13,4 +15,7 @@ public interface UserService {
     List<UserDTO> findAllUsers();
     UserDTO findByUserUserName(String userName);
     List<UserDTO> findByUserSurname(String userSurname);
+    ReaderDTO createReader(ReaderDTO readerDTO);
+    LibrarianDTO createLibrarian(LibrarianDTO librarianDTO);
+
 }

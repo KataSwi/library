@@ -20,4 +20,5 @@ public interface BookCopyRepository extends CrudRepository<BookcopyEntity,Long> 
     List<BookcopyEntity> findByIsbn(String isbn);
     BookcopyEntity findByInventory(Long id);
     List<BookcopyEntity> findByStateAndIsbn(int state, String isbn);
+    List<BookcopyEntity> findByStateAndInventory(int state, Long id);
 }

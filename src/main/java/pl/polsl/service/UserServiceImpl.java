@@ -3,9 +3,15 @@ package pl.polsl.service;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.polsl.dto.LibrarianDTO;
+import pl.polsl.dto.ReaderDTO;
 import pl.polsl.dto.UserDTO;
 import pl.polsl.mapper.LibraryMapper;
+import pl.polsl.model.LibrarianEntity;
+import pl.polsl.model.ReaderEntity;
 import pl.polsl.model.UsersEntity;
+import pl.polsl.repository.LibrarianRepository;
+import pl.polsl.repository.ReaderRepository;
 import pl.polsl.repository.UserRepository;
 
 import java.util.ArrayList;
@@ -19,6 +25,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ReaderRepository readerRepository;
+
+    @Autowired
+    private LibrarianRepository librarianRepository;
 
     @Autowired
     private LibraryMapper libraryMapper;
@@ -42,13 +54,33 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO findByUserUserName(String userName) {
-        return null;
-        //return userRepository.findByUserName(userName);
+        UsersEntity user = userRepository.findByUserName(userName);
+        return libraryMapper.toUserDTO(user);
     }
 
     @Override
     public List<UserDTO> findByUserSurname(String userSurname) {
-        return null;
-        //return userRepository.findBySurname(userSurname);
+        List<UsersEntity> users = userRepository.findBySurname(userSurname);
+        return libraryMapper.toUserDTOList(users);
+    }
+
+    @Override
+    public ReaderDTO createReader(ReaderDTO readerDTO) {
+        if(readerDTO == null){
+            return null;
+        }
+        ReaderEntity newReader = libraryMapper.toReaderEntity(readerDTO);
+        newReader = readerRepository.save(newReader);
+        return libraryMapper.toReaderDTO(newReader);
+    }
+
+    @Override
+    public LibrarianDTO createLibrarian(LibrarianDTO librarianDTO) {
+        if(librarianDTO == null){
+            return null;
+        }
+        LibrarianEntity librarianEntity = libraryMapper.toLibrarianEntity(librarianDTO);
+        librarianEntity = librarianRepository.save(librarianEntity);
+        return libraryMapper.toLibrarianDTO(librarianEntity);
     }
 }

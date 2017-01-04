@@ -8,7 +8,6 @@ import java.util.List;
  * Created by Katarzyna on 30.11.2016.
  */
 public interface ReaderService {
-    ReaderDTO createReader(ReaderDTO reader);
     List<ReaderDTO> findAllReaders();
     ReaderDTO findReaderByCardNumber(long cardNumber);
     ReaderDTO findReaderByUserName(String userName);

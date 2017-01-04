@@ -18,12 +18,6 @@ public class LibrarianController {
     @Autowired
     LibrarianService librarianService;
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<LibrarianDTO> createLibrarian(@RequestBody LibrarianDTO librarianDTO){
-        librarianDTO = librarianService.saveLibrarian(librarianDTO);
-        return new ResponseEntity<LibrarianDTO>(librarianDTO, HttpStatus.OK);
-    }
-
     @RequestMapping(value = "/{id}/find",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<LibrarianDTO> findLibrarian(@PathVariable("id") long librarianId){
         LibrarianDTO foundLibrarian = librarianService.getLibrarian(librarianId);

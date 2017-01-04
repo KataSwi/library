@@ -23,16 +23,6 @@ public class ReaderServiceImpl implements ReaderService {
     private LibraryMapper libraryMapper;
 
     @Override
-    public ReaderDTO createReader(ReaderDTO reader) {
-        if(reader == null){
-            return null;
-        }
-        ReaderEntity newReader = libraryMapper.toReaderEntity(reader);
-        newReader = readerRepository.save(newReader);
-        return libraryMapper.toReaderDTO(newReader);
-    }
-
-    @Override
     public List<ReaderDTO> findAllReaders() {
         List<ReaderEntity> readers = readerRepository.findAll();
         List<ReaderDTO> result = libraryMapper.toReaderDTOList(readers);
@@ -47,6 +37,7 @@ public class ReaderServiceImpl implements ReaderService {
 
     @Override
     public ReaderDTO findReaderByUserName(String userName) {
-        return null;
+        ReaderEntity readerEntity = readerRepository.findByUserName(userName);
+        return libraryMapper.toReaderDTO(readerEntity);
     }
 }

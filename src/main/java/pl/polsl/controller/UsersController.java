@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import pl.polsl.dto.LibrarianDTO;
+import pl.polsl.dto.ReaderDTO;
 import pl.polsl.dto.UserDTO;
 import pl.polsl.model.UsersEntity;
 import pl.polsl.service.UserService;
@@ -32,6 +34,18 @@ public class UsersController {
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO user){
         UserDTO createdUser = userService.createUser(user);
         return new ResponseEntity<UserDTO>(createdUser, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/reader/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ReaderDTO> createReader(@RequestBody ReaderDTO readerDTO){
+        ReaderDTO createdReader = userService.createReader(readerDTO);
+        return new ResponseEntity<ReaderDTO>(createdReader,HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/librarian/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<LibrarianDTO> createLibrarian(@RequestBody LibrarianDTO librarianDTO){
+        LibrarianDTO createdLibrarian = userService.createLibrarian(librarianDTO);
+        return new ResponseEntity<LibrarianDTO>(createdLibrarian,HttpStatus.OK);
     }
 
     @RequestMapping(value = "/findall", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -17,4 +17,5 @@ import java.util.List;
 public interface ReservationRepository extends CrudRepository<ReservationEntity,Integer> {
     List<ReservationEntity> findAll();
     List<ReservationEntity> findByReaderCard(long readerCard);
+    ReservationEntity findByReaderCardAndReservedBook(long readerCard, long reservedBook);
 }

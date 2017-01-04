@@ -473,6 +473,7 @@ public class LibraryMapperImpl implements LibraryMapper {
         ReservationEntity reservationEntity = new ReservationEntity();
         reservationEntity.setReservationid(reservationDTO.getReservationid());
         reservationEntity.setReservedBook(reservationDTO.getBookInventory());
+        reservationEntity.setReaderCard(reservationDTO.getReaderCard());
         reservationEntity.setBookByReservation(toBookCopyEntity(reservationDTO.getBookCopyDTO()));
         reservationEntity.setExpDate(reservationDTO.getExpDate());
         return reservationEntity;

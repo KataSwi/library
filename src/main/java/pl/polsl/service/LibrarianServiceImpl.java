@@ -21,17 +21,6 @@ public class LibrarianServiceImpl implements LibrarianService {
     @Autowired
     LibraryMapper libraryMapper;
 
-
-    @Override
-    public LibrarianDTO saveLibrarian(LibrarianDTO librarianDTO) {
-        if(librarianDTO == null){
-            return null;
-        }
-        LibrarianEntity librarianEntity = libraryMapper.toLibrarianEntity(librarianDTO);
-        librarianEntity = librarianRepository.save(librarianEntity);
-        return libraryMapper.toLibrarianDTO(librarianEntity);
-    }
-
     @Override
     public LibrarianDTO getLibrarian(Long librarianId) {
         LibrarianEntity librarianEntity = librarianRepository.findOne(librarianId);

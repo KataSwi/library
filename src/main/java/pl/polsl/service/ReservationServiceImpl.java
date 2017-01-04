@@ -22,16 +22,6 @@ public class ReservationServiceImpl implements ReservationService {
     private LibraryMapper libraryMapper;
 
     @Override
-    public ReservationDTO addReservation(ReservationDTO reservationDTO) {
-        if(reservationDTO == null){
-            return null;
-        }
-        ReservationEntity newReservation = libraryMapper.toReservationEntity(reservationDTO);
-        newReservation = reservationRepository.save(newReservation);
-        return libraryMapper.toReservationDTO(newReservation);
-    }
-
-    @Override
     public List<ReservationDTO> findAllReservations() {
         List<ReservationEntity> reservationEntities = reservationRepository.findAll();
         List<ReservationDTO> reservationDTOs = libraryMapper.toReservationDTOList(reservationEntities);

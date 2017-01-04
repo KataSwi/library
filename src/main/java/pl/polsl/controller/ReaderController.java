@@ -26,12 +26,6 @@ public class ReaderController {
         return "index";
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ReaderDTO> createReader(@RequestBody ReaderDTO reader){
-        reader = readerService.createReader(reader);
-        return new ResponseEntity<ReaderDTO>(reader, HttpStatus.OK);
-    }
-
     @RequestMapping(value = "/{id}/find", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ReaderDTO> getReader(@PathVariable("id") Long cardNumber){
         ReaderDTO foundReader = readerService.findReaderByCardNumber(cardNumber);

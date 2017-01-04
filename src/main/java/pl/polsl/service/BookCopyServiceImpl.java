@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.polsl.dto.BookCopyDTO;
 import pl.polsl.dto.BorrowedBooksDTO;
+import pl.polsl.dto.ReservationDTO;
 import pl.polsl.mapper.LibraryMapper;
 import pl.polsl.model.BookcopyEntity;
 import pl.polsl.model.BorrowedbooksEntity;
+import pl.polsl.model.ReservationEntity;
 import pl.polsl.repository.BookCopyRepository;
 import pl.polsl.repository.BorrowedBooksRepository;
 import pl.polsl.repository.ReservationRepository;
@@ -68,17 +70,52 @@ public class BookCopyServiceImpl implements BookCopyService {
         return libraryMapper.toBookCopyDTOList(bookcopyEntities);
     }
 
+    //TODO
+    // dodac sprawdzanie czy data rezerwacji minela
+    // w zasadzie to jesli minela to zmienic na anulowana rezerwacja i zmienic status ksiazki na dostepny, ale gdzie to zrobic?
     @Override
     public BorrowedBooksDTO addNewBorrowing(BorrowedBooksDTO borrowedBooksDTO) {
         if(borrowedBooksDTO == null){
             return null;
         }
+
         BorrowedbooksEntity borrowedbooksEntity = libraryMapper.toBorrowedBooksEntity(borrowedBooksDTO);
+        BookcopyEntity bookcopyEntity = bookCopyRepository.findByInventory(borrowedbooksEntity.getBookInventory());
+        ReservationEntity reservationEntity = reservationRepository.findByReaderCardAndReservedBook(borrowedbooksEntity.getReaderCard(),borrowedbooksEntity.getBookInventory());
+
+        if(bookcopyEntity.getState() == 2){
+            return null;
+        }
+
+        if(bookcopyEntity.getState() == 3){
+            if(reservationEntity == null){
+                return null;
+            }
+        }
+
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         borrowedbooksEntity.setBorrowedDate(timestamp);
         borrowedbooksEntity.setReturnDate(setReturnDateTimestamp());
+        setBookStatusAsBorrowed(borrowedbooksEntity.getBookInventory());
         borrowedbooksEntity = borrowedBooksRepository.save(borrowedbooksEntity);
         return libraryMapper.toBorrowedBooksDTO(borrowedbooksEntity);
+    }
+
+    @Override
+    public ReservationDTO addReservation(ReservationDTO reservationDTO) {
+        if(reservationDTO == null){
+            return null;
+        }
+        ReservationEntity newReservation = libraryMapper.toReservationEntity(reservationDTO);
+        BookcopyEntity bookcopyEntity = bookCopyRepository.findByInventory(newReservation.getReservedBook());
+
+        if((bookcopyEntity.getState() == 2) || (bookcopyEntity.getState() == 3)){
+            return null;
+        }
+        newReservation.setExpDate(setReservationExpDateTimestamp());
+        setBookStatusAsReserved(newReservation.getReservedBook());
+        newReservation = reservationRepository.save(newReservation);
+        return libraryMapper.toReservationDTO(newReservation);
     }
 
     @Override
@@ -110,6 +147,16 @@ public class BookCopyServiceImpl implements BookCopyService {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.DAY_OF_WEEK, 14);
+        date.setTime(cal.getTimeInMillis());
+        date = new Timestamp(cal.getTimeInMillis());
+        return date;
+    }
+
+    private Timestamp setReservationExpDateTimestamp(){
+        Timestamp date = new Timestamp(System.currentTimeMillis());
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DAY_OF_WEEK, 7);
         date.setTime(cal.getTimeInMillis());
         date = new Timestamp(cal.getTimeInMillis());
         return date;
