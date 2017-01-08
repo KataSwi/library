@@ -38,4 +38,10 @@ public class BorrowedBooksController {
         List<BorrowedBooksDTO> borrowedBooksDTOs = borrowedBooksService.findReaderBorrowings(card);
         return new ResponseEntity<List<BorrowedBooksDTO>>(borrowedBooksDTOs,HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/expired/{card}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<BorrowedBooksDTO>> getReaderBorrowingsExpired(@PathVariable long card){
+        List<BorrowedBooksDTO> borrowedBooksDTOs = borrowedBooksService.findReaderBorrowingsExpired(card);
+        return new ResponseEntity<List<BorrowedBooksDTO>>(borrowedBooksDTOs,HttpStatus.OK);
+    }
 }

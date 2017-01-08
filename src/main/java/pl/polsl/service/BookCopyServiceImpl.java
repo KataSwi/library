@@ -97,6 +97,7 @@ public class BookCopyServiceImpl implements BookCopyService {
         borrowedbooksEntity.setBorrowedDate(timestamp);
         borrowedbooksEntity.setReturnDate(setReturnDateTimestamp());
         setBookStatusAsBorrowed(borrowedbooksEntity.getBookInventory());
+        borrowedbooksEntity.setBorrowingState(1);
         borrowedbooksEntity = borrowedBooksRepository.save(borrowedbooksEntity);
         return libraryMapper.toBorrowedBooksDTO(borrowedbooksEntity);
     }
@@ -119,23 +120,40 @@ public class BookCopyServiceImpl implements BookCopyService {
     }
 
     @Override
-    public BookcopyEntity setBookStatusAsBorrowed(long inventory) {
+    public BorrowedBooksDTO returnBookCopy(BorrowedBooksDTO borrowedBooksDTO) {
+        if (borrowedBooksDTO == null){
+            return null;
+        }
+        BorrowedbooksEntity borrowedbooksEntity = borrowedBooksRepository.findByReaderCardAndBookInventoryAndBorrowingState(borrowedBooksDTO.getReaderCard(),borrowedBooksDTO.getBookInventory(),1);
+
+        if (borrowedbooksEntity == null){
+            return null;
+        }
+
+        setBookStatusAsReturned(borrowedbooksEntity.getBookInventory());
+        borrowedbooksEntity.setBorrowingState(0);
+        borrowedbooksEntity = borrowedBooksRepository.save(borrowedbooksEntity);
+        return libraryMapper.toBorrowedBooksDTO(borrowedbooksEntity);
+    }
+
+
+    private BookcopyEntity setBookStatusAsBorrowed(long inventory) {
         BookcopyEntity bookcopyEntity = bookCopyRepository.findByInventory(inventory);
         bookcopyEntity.setState(2);
         bookcopyEntity = bookCopyRepository.save(bookcopyEntity);
         return bookcopyEntity;
     }
 
-    @Override
-    public BookCopyDTO setBookStatusAsReturned(long inventory) {
+
+    private BookcopyEntity setBookStatusAsReturned(long inventory) {
         BookcopyEntity bookcopyEntity = bookCopyRepository.findByInventory(inventory);
         bookcopyEntity.setState(1);
         bookcopyEntity = bookCopyRepository.save(bookcopyEntity);
-        return libraryMapper.toBookCopyDTO(bookcopyEntity);
+        return bookcopyEntity;
     }
 
-    @Override
-    public BookcopyEntity setBookStatusAsReserved(long inventory) {
+
+    private BookcopyEntity setBookStatusAsReserved(long inventory) {
         BookcopyEntity bookcopyEntity = bookCopyRepository.findByInventory(inventory);
         bookcopyEntity.setState(3);
         bookcopyEntity = bookCopyRepository.save(bookcopyEntity);

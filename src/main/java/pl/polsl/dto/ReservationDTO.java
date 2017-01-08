@@ -11,6 +11,7 @@ public class ReservationDTO {
     private long bookInventory;
     private BookCopyDTO bookCopyDTO;
     private long readerCard;
+    private int state;
 
     public int getReservationid() {
         return reservationid;
@@ -50,5 +51,13 @@ public class ReservationDTO {
 
     public void setReaderCard(long readerCard) {
         this.readerCard = readerCard;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 }

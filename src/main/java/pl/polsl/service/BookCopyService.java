@@ -20,7 +20,6 @@ public interface BookCopyService {
     List<BookCopyDTO> findBookCopiesByState(String isbn, int state);
     BorrowedBooksDTO addNewBorrowing(BorrowedBooksDTO borrowedBooksDTO);
     ReservationDTO addReservation(ReservationDTO reservationDTO);
-    BookcopyEntity setBookStatusAsBorrowed(long inventory);
-    BookCopyDTO setBookStatusAsReturned(long inventory);
-    BookcopyEntity setBookStatusAsReserved(long inventory);
+    BorrowedBooksDTO returnBookCopy(BorrowedBooksDTO borrowedBooksDTO);
+
 }

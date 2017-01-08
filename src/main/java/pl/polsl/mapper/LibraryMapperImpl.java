@@ -427,6 +427,7 @@ public class LibraryMapperImpl implements LibraryMapper {
         borrowedbooksEntity.setBookByReader(toBookCopyEntity(borrowedBooksDTO.getBookCopyDTO()));
         borrowedbooksEntity.setBorrowedDate(borrowedBooksDTO.getBorrowedDate());
         borrowedbooksEntity.setReturnDate(borrowedBooksDTO.getReturnDate());
+        borrowedbooksEntity.setBorrowingState(borrowedBooksDTO.getState());
         return borrowedbooksEntity;
     }
 
@@ -452,6 +453,7 @@ public class LibraryMapperImpl implements LibraryMapper {
         borrowedBooksDTO.setBookCopyDTO(toBookCopyDTO(borrowedbooksEntity.getBookByReader()));
         borrowedBooksDTO.setBorrowedDate(borrowedbooksEntity.getBorrowedDate());
         borrowedBooksDTO.setReturnDate(borrowedbooksEntity.getReturnDate());
+        borrowedBooksDTO.setState(borrowedbooksEntity.getBorrowingState());
         return borrowedBooksDTO;
     }
 
@@ -476,6 +478,7 @@ public class LibraryMapperImpl implements LibraryMapper {
         reservationEntity.setReaderCard(reservationDTO.getReaderCard());
         reservationEntity.setBookByReservation(toBookCopyEntity(reservationDTO.getBookCopyDTO()));
         reservationEntity.setExpDate(reservationDTO.getExpDate());
+        reservationEntity.setReservationState(reservationDTO.getState());
         return reservationEntity;
     }
 
@@ -500,6 +503,7 @@ public class LibraryMapperImpl implements LibraryMapper {
         reservationDTO.setReaderCard(reservationEntity.getReaderCard());
         reservationDTO.setBookCopyDTO(toBookCopyDTO(reservationEntity.getBookByReservation()));
         reservationDTO.setExpDate(reservationEntity.getExpDate());
+        reservationDTO.setState(reservationEntity.getReservationState());
         return reservationDTO;
     }
 

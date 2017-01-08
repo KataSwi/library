@@ -59,21 +59,19 @@ public class BookCopyController {
     }
 
     @RequestMapping(value = "/return", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BookCopyDTO> returnBook(@RequestBody BorrowedBooksDTO borrowedBooksDTO){
-        BookCopyDTO updated = bookCopyService.setBookStatusAsReturned(borrowedBooksDTO.getBookInventory());
-        return new ResponseEntity<BookCopyDTO>(updated,HttpStatus.OK);
+    public ResponseEntity<BorrowedBooksDTO> returnBook(@RequestBody BorrowedBooksDTO borrowedBooksDTO){
+        BorrowedBooksDTO updated = bookCopyService.returnBookCopy(borrowedBooksDTO);
+        return new ResponseEntity<BorrowedBooksDTO>(updated,HttpStatus.OK);
     }
 
     @RequestMapping(value = "/borrow", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BorrowedBooksDTO> borrowBook(@RequestBody BorrowedBooksDTO newBorrow){
-        //bookCopyService.setBookStatusAsBorrowed(newBorrow.getBookInventory());
         BorrowedBooksDTO borrowedBooksDTO = bookCopyService.addNewBorrowing(newBorrow);
         return new ResponseEntity<BorrowedBooksDTO>(borrowedBooksDTO, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/reserve", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ReservationDTO> reserveBoook(@RequestBody ReservationDTO newReservation){
-        //bookCopyService.setBookStatusAsReserved(newReservation.getBookInventory());
         ReservationDTO reservationDTO = bookCopyService.addReservation(newReservation);
         return new ResponseEntity<ReservationDTO>(reservationDTO,HttpStatus.OK);
     }

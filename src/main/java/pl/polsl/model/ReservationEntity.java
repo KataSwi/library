@@ -27,6 +27,10 @@ public class ReservationEntity {
     @Column(name = "reader_card", nullable = false)
     private long readerCard;
 
+    @Basic
+    @Column(name = "state")
+    private int reservationState;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "reader_card", referencedColumnName = "card_number", insertable = false, updatable = false)
     private ReaderEntity readerByReservation;
@@ -65,6 +69,14 @@ public class ReservationEntity {
 
     public void setReaderCard(long readerCard) {
         this.readerCard = readerCard;
+    }
+
+    public int getReservationState() {
+        return reservationState;
+    }
+
+    public void setReservationState(int reservationState) {
+        this.reservationState = reservationState;
     }
 
     public ReaderEntity getReaderByReservation() {

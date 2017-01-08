@@ -12,6 +12,8 @@ public class BorrowedBooksDTO {
     private BookCopyDTO bookCopyDTO;
     private Timestamp borrowedDate;
     private Timestamp returnDate;
+    private int state;
+
 
     public int getBorrowid() {
         return borrowid;
@@ -59,5 +61,13 @@ public class BorrowedBooksDTO {
 
     public void setBookInventory(long bookInventory) {
         this.bookInventory = bookInventory;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 }

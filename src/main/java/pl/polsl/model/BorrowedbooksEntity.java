@@ -31,6 +31,10 @@ public class BorrowedbooksEntity {
     @Column(name = "return_date")
     private Timestamp returnDate;
 
+    @Basic
+    @Column(name = "state")
+    private int borrowingState;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "reader_card", referencedColumnName = "card_number", insertable = false, updatable = false)
     private ReaderEntity readerByBorrowedBooks;
@@ -78,6 +82,14 @@ public class BorrowedbooksEntity {
 
     public void setReturnDate(Timestamp returnDate) {
         this.returnDate = returnDate;
+    }
+
+    public int getBorrowingState() {
+        return borrowingState;
+    }
+
+    public void setBorrowingState(int borrowingState) {
+        this.borrowingState = borrowingState;
     }
 
     public ReaderEntity getReaderByBorrowedBooks() {
