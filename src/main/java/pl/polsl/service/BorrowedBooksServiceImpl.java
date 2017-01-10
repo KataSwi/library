@@ -52,7 +52,7 @@ public class BorrowedBooksServiceImpl implements BorrowedBooksService {
     public List<BorrowedBooksDTO> findReaderBorrowingsExpired(long readerCard) {
         //Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Timestamp timestamp = setReturnDateTimestamp();
-        List<BorrowedbooksEntity> borrowedbooksEntities = borrowedBooksRepository.findByReaderdCardAndBorrowingStateAndReturnDateBefore(readerCard,1,timestamp);
+        List<BorrowedbooksEntity> borrowedbooksEntities = borrowedBooksRepository.findByReaderCardAndBorrowingStateAndReturnDateBefore(readerCard,1,timestamp);
         List<BorrowedBooksDTO> borrowedBooksDTOs = libraryMapper.toBorrowedBooksDTOList(borrowedbooksEntities);
         return borrowedBooksDTOs;
     }

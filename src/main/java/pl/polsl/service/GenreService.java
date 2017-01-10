@@ -12,4 +12,5 @@ public interface GenreService {
     List<GenreDTO> findAllGenres();
     GenreDTO findOneGenre(int id);
     GenreDTO findGenreType(String type);
+    List<GenreDTO> findSimilarGenres(String type, String rate);
 }

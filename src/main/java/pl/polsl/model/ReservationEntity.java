@@ -105,18 +105,18 @@ public class ReservationEntity {
         if (reservationid != that.reservationid) return false;
         if (reservedBook != that.reservedBook) return false;
         if (readerCard != that.readerCard) return false;
-        if (expDate != null ? !expDate.equals(that.expDate) : that.expDate != null) return false;
+        if (reservationState != that.reservationState) return false;
+        return expDate.equals(that.expDate);
 
-        return true;
     }
 
     @Override
     public int hashCode() {
         int result = reservationid;
-        result = 31 * result + (expDate != null ? expDate.hashCode() : 0);
+        result = 31 * result + expDate.hashCode();
         result = 31 * result + (int) (reservedBook ^ (reservedBook >>> 32));
         result = 31 * result + (int) (readerCard ^ (readerCard >>> 32));
+        result = 31 * result + reservationState;
         return result;
     }
-
 }

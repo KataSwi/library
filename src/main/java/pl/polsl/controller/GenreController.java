@@ -43,4 +43,10 @@ public class GenreController {
         return new ResponseEntity<GenreDTO>(foundGenre,HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/{type}/find/{rate}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<GenreDTO>> getGenresBySimilarity(@PathVariable("type") String type, @PathVariable("rate") String rate){
+        List<GenreDTO> foundSimilarGenres = genreService.findSimilarGenres(type,rate);
+        return new ResponseEntity<List<GenreDTO>>(foundSimilarGenres,HttpStatus.OK);
+    }
+
 }

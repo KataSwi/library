@@ -22,5 +22,5 @@ public interface BorrowedBooksRepository extends CrudRepository<BorrowedbooksEnt
     List<BorrowedbooksEntity> findByBorrowingStateAndReturnDateBefore(int state, Timestamp timestamp);
     BorrowedbooksEntity findByBookInventoryAndBorrowingState(long inventory, int state);
     BorrowedbooksEntity findByReaderCardAndBookInventoryAndBorrowingState(long readerCard, long inventory, int state);
-    List<BorrowedbooksEntity> findByReaderdCardAndBorrowingStateAndReturnDateBefore(long readerCard, int state, Timestamp timestamp);
+    List<BorrowedbooksEntity> findByReaderCardAndBorrowingStateAndReturnDateBefore(long readerCard, int state, Timestamp timestamp);
 }

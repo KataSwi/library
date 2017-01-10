@@ -118,10 +118,10 @@ public class BorrowedbooksEntity {
         if (borrowid != that.borrowid) return false;
         if (readerCard != that.readerCard) return false;
         if (bookInventory != that.bookInventory) return false;
-        if (borrowedDate != null ? !borrowedDate.equals(that.borrowedDate) : that.borrowedDate != null) return false;
-        if (returnDate != null ? !returnDate.equals(that.returnDate) : that.returnDate != null) return false;
+        if (borrowingState != that.borrowingState) return false;
+        if (!borrowedDate.equals(that.borrowedDate)) return false;
+        return returnDate.equals(that.returnDate);
 
-        return true;
     }
 
     @Override
@@ -129,9 +129,9 @@ public class BorrowedbooksEntity {
         int result = borrowid;
         result = 31 * result + (int) (readerCard ^ (readerCard >>> 32));
         result = 31 * result + (int) (bookInventory ^ (bookInventory >>> 32));
-        result = 31 * result + (borrowedDate != null ? borrowedDate.hashCode() : 0);
-        result = 31 * result + (returnDate != null ? returnDate.hashCode() : 0);
+        result = 31 * result + borrowedDate.hashCode();
+        result = 31 * result + returnDate.hashCode();
+        result = 31 * result + borrowingState;
         return result;
     }
-
 }
