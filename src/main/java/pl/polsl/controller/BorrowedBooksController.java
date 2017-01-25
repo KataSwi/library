@@ -21,7 +21,7 @@ public class BorrowedBooksController {
     @Autowired
     private BorrowedBooksService borrowedBooksService;
 
-    @RequestMapping(value = "/findall", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<BorrowedBooksDTO>> getAllBorrowings(){
         List<BorrowedBooksDTO> borrowedBooksDTOs = borrowedBooksService.findAllBorrowings();
         return new ResponseEntity<List<BorrowedBooksDTO>>(borrowedBooksDTOs,HttpStatus.OK);
@@ -43,5 +43,11 @@ public class BorrowedBooksController {
     public ResponseEntity<List<BorrowedBooksDTO>> getReaderBorrowingsExpired(@PathVariable long card){
         List<BorrowedBooksDTO> borrowedBooksDTOs = borrowedBooksService.findReaderBorrowingsExpired(card);
         return new ResponseEntity<List<BorrowedBooksDTO>>(borrowedBooksDTOs,HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/prolongate/{inventory}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<BorrowedBooksDTO> prolongateBook(@PathVariable("inventory") long inventory){
+        BorrowedBooksDTO borrowedBooksDTO = borrowedBooksService.updateReturnDate(inventory);
+        return new ResponseEntity<BorrowedBooksDTO>(borrowedBooksDTO,HttpStatus.OK);
     }
 }

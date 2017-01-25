@@ -34,7 +34,7 @@ public class BookCopyController {
         return new ResponseEntity<BookCopyDTO>(newCopy, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/findall", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<BookCopyDTO>> getAllBookCopies(){
         List<BookCopyDTO> foundCopies = bookCopyService.findAllBookCopies();
         return new ResponseEntity<List<BookCopyDTO>>(foundCopies,HttpStatus.OK);

@@ -32,7 +32,7 @@ public class AuthorController {
         return new ResponseEntity<AuthorDTO>(createdAuthor,HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/findall", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<AuthorDTO>> getAllAuthors(){
         List<AuthorDTO> allAutors = authorService.findAll();
         return new ResponseEntity<List<AuthorDTO>>(allAutors,HttpStatus.OK);

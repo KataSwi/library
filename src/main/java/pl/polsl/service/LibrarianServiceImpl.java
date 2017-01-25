@@ -8,6 +8,8 @@ import pl.polsl.mapper.LibraryMapper;
 import pl.polsl.model.LibrarianEntity;
 import pl.polsl.repository.LibrarianRepository;
 
+import java.util.List;
+
 /**
  * Created by Katarzyna on 06.12.2016.
  */
@@ -22,8 +24,14 @@ public class LibrarianServiceImpl implements LibrarianService {
     LibraryMapper libraryMapper;
 
     @Override
-    public LibrarianDTO getLibrarian(Long librarianId) {
+    public LibrarianDTO findLibrarian(Long librarianId) {
         LibrarianEntity librarianEntity = librarianRepository.findOne(librarianId);
         return libraryMapper.toLibrarianDTO(librarianEntity);
+    }
+
+    @Override
+    public List<LibrarianDTO> findAllLibrarians() {
+        List<LibrarianEntity> librarianEntities = librarianRepository.findAll();
+        return libraryMapper.toLibrarianDTOList(librarianEntities);
     }
 }

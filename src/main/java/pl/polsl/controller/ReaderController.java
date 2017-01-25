@@ -32,7 +32,7 @@ public class ReaderController {
         return new ResponseEntity<ReaderDTO>(foundReader,HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/findAll",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/all",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ReaderDTO>> getAllReaders(){
         List<ReaderDTO> foundReaders = readerService.findAllReaders();
         return new ResponseEntity<List<ReaderDTO>>(foundReaders,HttpStatus.OK);

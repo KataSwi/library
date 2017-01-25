@@ -57,11 +57,32 @@ public class BorrowedBooksServiceImpl implements BorrowedBooksService {
         return borrowedBooksDTOs;
     }
 
+    @Override
+    public BorrowedBooksDTO updateReturnDate(long inventory) {
+        BorrowedbooksEntity borrowedbooksEntity = borrowedBooksRepository.findByBookInventoryAndBorrowingState(inventory,1);
+        if(borrowedbooksEntity == null){
+            return null;
+        }
+        Timestamp timestamp = setProlongateDate(borrowedbooksEntity.getReturnDate());
+        borrowedbooksEntity.setReturnDate(timestamp);
+        borrowedbooksEntity = borrowedBooksRepository.save(borrowedbooksEntity);
+        return libraryMapper.toBorrowedBooksDTO(borrowedbooksEntity);
+    }
+
     private Timestamp setReturnDateTimestamp(){
         Timestamp date = new Timestamp(System.currentTimeMillis());
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.DAY_OF_WEEK, 30);
+        date.setTime(cal.getTimeInMillis());
+        date = new Timestamp(cal.getTimeInMillis());
+        return date;
+    }
+
+    private Timestamp setProlongateDate(Timestamp date){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DAY_OF_WEEK, 14);
         date.setTime(cal.getTimeInMillis());
         date = new Timestamp(cal.getTimeInMillis());
         return date;

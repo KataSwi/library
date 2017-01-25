@@ -23,7 +23,7 @@ public class ReservationController {
     @Autowired
     private ReservationService reservationService;
 
-    @RequestMapping(value = "/findall", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     private ResponseEntity<List<ReservationDTO>> getAllReservations(){
         List<ReservationDTO> reservationDTOs = reservationService.findAllReservations();
         return new ResponseEntity<List<ReservationDTO>>(reservationDTOs, HttpStatus.OK);

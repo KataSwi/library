@@ -32,7 +32,7 @@ public class UsersEntity {
     private int roleid;
 
     @Basic
-    @Column(name = "email", length = 50)
+    @Column(name = "email", length = 50, unique = true)
     private String email;
 
     @ManyToOne

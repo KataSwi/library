@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import pl.polsl.dto.LibrarianDTO;
 import pl.polsl.service.LibrarianService;
 
+import java.util.List;
+
 /**
  * Created by Katarzyna on 30.11.2016.
  */
@@ -18,9 +20,15 @@ public class LibrarianController {
     @Autowired
     LibrarianService librarianService;
 
+    @RequestMapping(value = "/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<LibrarianDTO>> getAllLibrarians(){
+        List<LibrarianDTO> foundLibrarians = librarianService.findAllLibrarians();
+        return new ResponseEntity<List<LibrarianDTO>>(foundLibrarians,HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/{id}/find",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<LibrarianDTO> findLibrarian(@PathVariable("id") long librarianId){
-        LibrarianDTO foundLibrarian = librarianService.getLibrarian(librarianId);
+    public ResponseEntity<LibrarianDTO> getLibrarian(@PathVariable("id") long librarianId){
+        LibrarianDTO foundLibrarian = librarianService.findLibrarian(librarianId);
         return new ResponseEntity<LibrarianDTO>(foundLibrarian,HttpStatus.OK);
     }
 

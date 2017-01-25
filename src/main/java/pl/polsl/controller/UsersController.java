@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.polsl.dto.LibrarianDTO;
 import pl.polsl.dto.ReaderDTO;
 import pl.polsl.dto.UserDTO;
@@ -30,7 +27,7 @@ public class UsersController {
         return "index";
     }
 
-    @RequestMapping(value = "/create",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/admin/create",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO user){
         UserDTO createdUser = userService.createUser(user);
         return new ResponseEntity<UserDTO>(createdUser, HttpStatus.OK);
@@ -48,7 +45,8 @@ public class UsersController {
         return new ResponseEntity<LibrarianDTO>(createdLibrarian,HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/findall", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
     public ResponseEntity<List<UserDTO>> getAllUsers(){
         List<UserDTO> allUsers = userService.findAllUsers();
         return new ResponseEntity<List<UserDTO>>(allUsers,HttpStatus.OK);

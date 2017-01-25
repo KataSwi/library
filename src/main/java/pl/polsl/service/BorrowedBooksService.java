@@ -13,4 +13,5 @@ public interface BorrowedBooksService {
     List<BorrowedBooksDTO> findByReturnDateExpired();
     List<BorrowedBooksDTO> findReaderBorrowings(long readerCard);
     List<BorrowedBooksDTO> findReaderBorrowingsExpired(long readerCard);
+    BorrowedBooksDTO updateReturnDate(long inventory);
 }

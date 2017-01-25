@@ -25,13 +25,8 @@ public class GenreController {
         return "index";
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GenreDTO> createGenre(@RequestBody GenreDTO genre){
-        GenreDTO createdGenre = genreService.createGenre(genre);
-        return new ResponseEntity<GenreDTO>(createdGenre, HttpStatus.OK);
-    }
 
-    @RequestMapping(value = "/findall", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<GenreDTO>> getAllGenres(){
         List<GenreDTO> allGenres = genreService.findAllGenres();
         return new ResponseEntity<List<GenreDTO>>(allGenres,HttpStatus.OK);

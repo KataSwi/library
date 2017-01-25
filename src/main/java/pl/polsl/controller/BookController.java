@@ -31,7 +31,7 @@ public class BookController {
         return new ResponseEntity<BookDTO>(createdBook, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/findall", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<BookDTO>> getAllBooks(){
         List<BookDTO> foundBooks = bookService.findAllBooks();
         return new ResponseEntity<List<BookDTO>>(foundBooks,HttpStatus.OK);

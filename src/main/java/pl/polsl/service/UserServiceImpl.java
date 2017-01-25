@@ -70,6 +70,7 @@ public class UserServiceImpl implements UserService {
             return null;
         }
         ReaderEntity newReader = libraryMapper.toReaderEntity(readerDTO);
+        newReader.setCardNumber(generateReaderCardNumber());
         newReader = readerRepository.save(newReader);
         return libraryMapper.toReaderDTO(newReader);
     }
@@ -82,5 +83,21 @@ public class UserServiceImpl implements UserService {
         LibrarianEntity librarianEntity = libraryMapper.toLibrarianEntity(librarianDTO);
         librarianEntity = librarianRepository.save(librarianEntity);
         return libraryMapper.toLibrarianDTO(librarianEntity);
+    }
+
+    private long generateReaderCardNumber(){
+        long leftLimit = 100000L;
+        long rightLimit = 999999L;
+        long generatedLong = 0;
+        boolean notExists = false;
+
+        while(!notExists){
+            generatedLong = leftLimit + (long) (Math.random() * (rightLimit - leftLimit + 1));
+            ReaderEntity readerEntity = readerRepository.findOne(generatedLong);
+            if (readerEntity == null){
+                notExists = true;
+            }
+        }
+        return generatedLong;
     }
 }
