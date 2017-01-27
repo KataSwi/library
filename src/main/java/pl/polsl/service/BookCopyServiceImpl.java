@@ -3,13 +3,16 @@ package pl.polsl.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.polsl.dto.BookCopyDTO;
+import pl.polsl.dto.BookDTO;
 import pl.polsl.dto.BorrowedBooksDTO;
 import pl.polsl.dto.ReservationDTO;
 import pl.polsl.mapper.LibraryMapper;
+import pl.polsl.model.BookEntity;
 import pl.polsl.model.BookcopyEntity;
 import pl.polsl.model.BorrowedbooksEntity;
 import pl.polsl.model.ReservationEntity;
 import pl.polsl.repository.BookCopyRepository;
+import pl.polsl.repository.BookRepository;
 import pl.polsl.repository.BorrowedBooksRepository;
 import pl.polsl.repository.ReservationRepository;
 
@@ -28,6 +31,9 @@ public class BookCopyServiceImpl implements BookCopyService {
 
     @Autowired
     private BorrowedBooksRepository borrowedBooksRepository;
+
+    @Autowired
+    private BookRepository bookRepository;
 
     @Autowired
     private ReservationRepository reservationRepository;
@@ -68,6 +74,16 @@ public class BookCopyServiceImpl implements BookCopyService {
     public List<BookCopyDTO> findBookCopiesByState(String isbn, int state) {
         List<BookcopyEntity> bookcopyEntities = bookCopyRepository.findByStateAndIsbn(state,isbn);
         return libraryMapper.toBookCopyDTOList(bookcopyEntities);
+    }
+
+    @Override
+    public List<BookCopyDTO> findBookCopiesByTitle(String title) {
+        List<BookEntity> bookEntities = bookRepository.findByTitle(title);
+        if (bookEntities == null){
+            return null;
+        }
+
+        return null;
     }
 
     //TODO

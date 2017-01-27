@@ -13,4 +13,5 @@ public interface AuthorService {
     List<AuthorDTO> findAll();
     AuthorDTO findById(int id);
     List<AuthorDTO> findBySurname(String surname);
+    AuthorDTO findAuthor(String name, String surname);
 }

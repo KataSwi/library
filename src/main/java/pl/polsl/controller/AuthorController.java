@@ -44,5 +44,11 @@ public class AuthorController {
         return new ResponseEntity<List<AuthorDTO>>(allAutors,HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/{name}/{surname}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AuthorDTO> getAuthor(@PathVariable("name") String name, @PathVariable("surname") String surname){
+        AuthorDTO authorDTO = authorService.findAuthor(name,surname);
+        return new ResponseEntity<AuthorDTO>(authorDTO,HttpStatus.OK);
+    }
+
 
 }

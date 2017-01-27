@@ -32,7 +32,7 @@ public class GenreController {
         return new ResponseEntity<List<GenreDTO>>(allGenres,HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{type}/find", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/find/{type}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GenreDTO> getGenreByType(@PathVariable("type") String type){
         GenreDTO foundGenre = genreService.findGenreType(type);
         return new ResponseEntity<GenreDTO>(foundGenre,HttpStatus.OK);

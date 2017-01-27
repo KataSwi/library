@@ -70,12 +70,16 @@
                     <th>Pages</th>
                     <th>Genre</th>
                     <th>Publisher</th>
+                    <th>Option</th>
                 </tr>
                 </thead>
                 <tbody>
 
                 </tbody>
             </table>
+            <div id="wynik">
+                <pre></pre>
+            </div>
 
         </div>
     </div>
@@ -95,12 +99,33 @@
             success: function (data) {
                 $.each(data,function (i,book) {
                     $(".data-users-js").append(
-                            "<tr><td>" + book.isbn + "</td>" + "<td>" + book.title + "</td>"+"<td>"+book.authorDTO.authorName+" "+book.authorDTO.authorSurname+"</td>"+"<td>"+book.pages+"</td>"+"<td>"+book.genreDTO.type+"</td>"+"<td>"+book.publisher+"</td></tr>"
+                            "<tr><td class='nr'>" + book.isbn + "</td>" + "<td>" + book.title + "</td>"+"<td>"+book.authorDTO.authorName+" "+book.authorDTO.authorSurname+"</td>"+"<td>"+book.pages+"</td>"+"<td>"+book.genreDTO.type+"</td>"+"<td>"+book.publisher+"</td><td><button class='use-adress' type='button'/></td></tr>"
                     );
-                })
+                });
+                $(".use-adress").click(function () {
+                    var $row = $(this).closest('tr');
+                    var text = $row.find('.nr').text();
+                    alert(text);
+                    $.ajax({
+                       url: "http://localhost:8080/bookcopy/isbn/" + text,
+                        error: function() {
+                            $('#info').html('<p>An error has occurred</p>');
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            $.each(data,function (i,copies) {
+                                $("#wynik pre").html(JSON.stringify(copies,i))
+                            })
+                        },
+                        type: 'GET'
+
+                    });
+                });
+
             },
             type: 'GET'
-        })
+        });
+
     });
 
 </script>

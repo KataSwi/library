@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Katalog</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class = "navbar navbar-inverse navbar-fixed-top">
+    <div class = "container-fluid">
+        <div class = "navbar-header">
+            <a class = "navbar-brand" href = "#">Biblioteka</a>
+        </div>
+        <ul class = "nav navbar-nav">
+            <li><a href = "#">Home</a></li>
+            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Akcje<span class="caret"></span> </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Wypożycz</a></li>
+                    <li><a href="#">Zwróć</a></li>
+                </ul>
+            </li>
+            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Nowy<span class="caret"></span> </a>
+                <ul class="dropdown-menu">
+                    <li class="active"><a href="#">Autor</a></li>
+                    <li><a href="#">Książka</a></li>
+                    <li><a href="#">Egzemplarz</a></li>
+                </ul>
+            </li>
+            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Wyszukaj<span class="caret"></span> </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Egzemplarz</a></li>
+                    <li><a href="#">Czytelnik</a></li>
+                    <li><a href="#">Wypożyczenia</a></li>
+                    <li><a href="#">Rezerwacje</a></li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class = "container-fluid" style = "margin-top:50px">
+    <div class = "row">
+        <div class = "col-sm-10 col-md-9 col-md-offset-1 main">
+            <div class = "page-header">
+                <h1>Biblioteka</h1>
+            </div>
+
+            <h3 class = "sub-header">Wyszukaj</h3>
+            <br>
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for ="title">Tytuł:</label>
+                    <input type="text" class="form-control" id = "title">
+                    <button class="btn btn-default" type="submit" id = searchtitle>Szukaj</button>
+                </div>
+                <div class="form-group">
+                    <label for ="author">Autor:</label>
+                    <input type="text" class="form-control" id = "author">
+                    <button class="btn btn-default" type="submit" id = searchauthor>Szukaj</button>
+                </div>
+                <div class="form-group">
+                    <label for="glist">Genre:</label>
+                    <select class="form-control" id="glist">
+                        <option>biografia</option>
+                        <option>dzieci</option>
+                        <option>mlodziez</option>
+                        <option>encyklopedia</option>
+                        <option>fantastyka</option>
+                        <option>filozofia</option>
+                        <option>historia</option>
+                        <option>poezja</option>
+                        <option>lpiekna</option>
+                        <option>lfaktu</option>
+                        <option>obyczajowa</option>
+                        <option>romans</option>
+                        <option>sensacja</option>
+                        <option>kryminal</option>
+                        <option>thriller</option>
+                        <option>horror</option>
+                    </select>
+                    <button class="btn btn-default" type="submit" id = searchgenre>Szukaj</button>
+                </div>
+            </form>
+            <hr>
+            <table class="data-users-js table table-hover" >
+                <thead>
+                <tr>
+                    <th>ISBN</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Pages</th>
+                    <th>Genre</th>
+                    <th>Publisher</th>
+                </tr>
+                </thead>
+                <tbody id="result">
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#searchtitle').click(function (event) {
+            event.preventDefault();
+            var title = $('#title').val();
+            var url = 'http://localhost:8080/book/find/' + title;
+            $.ajax({
+                url: url,
+                error: function() {
+                    $('#info').html('<p>An error has occurred</p>');
+                },
+                dataType: 'json',
+                success: function (data) {
+                    $('#result').empty();
+                    $.each(data,function (i,book) {
+                        $(".data-users-js").append(
+                                "<tr><td>" + book.isbn + "</td>" + "<td>" + book.title + "</td>"+"<td>"+book.authorDTO.authorName+" "+book.authorDTO.authorSurname+"</td>"+"<td>"+book.pages+"</td>"+"<td>"+book.genreDTO.type+"</td>"+"<td>"+book.publisher+"</td></tr>"
+                        );
+                    })
+                },
+                type: 'GET'
+            });
+            $('#title').val("");
+        });
+        $('#searchauthor').click(function (event) {
+            event.preventDefault();
+            var author = $('#author').val();
+            var url = 'http://localhost:8080/book/author/' + author;
+            $.ajax({
+                url: url,
+                error: function() {
+                    $('#info').html('<p>An error has occurred</p>');
+                },
+                dataType: 'json',
+                success: function (data) {
+                    $('#result').empty();
+                    $.each(data,function (i,book) {
+                        $(".data-users-js").append(
+                                "<tr><td>" + book.isbn + "</td>" + "<td>" + book.title + "</td>"+"<td>"+book.authorDTO.authorName+" "+book.authorDTO.authorSurname+"</td>"+"<td>"+book.pages+"</td>"+"<td>"+book.genreDTO.type+"</td>"+"<td>"+book.publisher+"</td></tr>"
+                        );
+                    })
+                },
+                type: 'GET'
+            });
+            $('#author').val("");
+        });
+        $('#searchgenre').click(function (event) {
+            event.preventDefault();
+            var genre = $('#glist option:selected').text();
+            var url = 'http://localhost:8080/book/genre/' + genre;
+            $.ajax({
+                url: url,
+                error: function() {
+                    $('#info').html('<p>An error has occurred</p>');
+                },
+                dataType: 'json',
+                success: function (data) {
+                    $('#result').empty();
+                    $.each(data,function (i,book) {
+                        $(".data-users-js").append(
+                                "<tr><td>" + book.isbn + "</td>" + "<td>" + book.title + "</td>"+"<td>"+book.authorDTO.authorName+" "+book.authorDTO.authorSurname+"</td>"+"<td>"+book.pages+"</td>"+"<td>"+book.genreDTO.type+"</td>"+"<td>"+book.publisher+"</td></tr>"
+                        );
+                    })
+                },
+                type: 'GET'
+            });
+        });
+    });
+
+</script>
+
+</body>
+</html>

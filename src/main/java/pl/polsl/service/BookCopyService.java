@@ -18,6 +18,7 @@ public interface BookCopyService {
     BookCopyDTO findByInventoryNumber(long id);
     List<BookCopyDTO> findBookCopiesByIsbn(String isbn);
     List<BookCopyDTO> findBookCopiesByState(String isbn, int state);
+    List<BookCopyDTO> findBookCopiesByTitle(String title);
     BorrowedBooksDTO addNewBorrowing(BorrowedBooksDTO borrowedBooksDTO);
     ReservationDTO addReservation(ReservationDTO reservationDTO);
     BorrowedBooksDTO returnBookCopy(BorrowedBooksDTO borrowedBooksDTO);

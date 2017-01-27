@@ -49,4 +49,10 @@ public class AuthorServiceImpl implements AuthorService {
         List<AuthorEntity> foundAuthors = authorRepository.findByAuthorSurname(surname);
         return libraryMapper.toAuthorDTOList(foundAuthors);
     }
+
+    @Override
+    public AuthorDTO findAuthor(String name, String surname) {
+        AuthorEntity authorEntity = authorRepository.findByAuthorNameAndAuthorSurname(name,surname);
+        return libraryMapper.toAuthorDTO(authorEntity);
+    }
 }

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Nowy autor - Bibliotekarz</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class = "navbar navbar-inverse navbar-fixed-top">
+    <div class = "container-fluid">
+        <div class = "navbar-header">
+            <a class = "navbar-brand" href = "#">Biblioteka</a>
+        </div>
+        <ul class = "nav navbar-nav">
+            <li><a href = "#">Home</a></li>
+            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Akcje<span class="caret"></span> </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Wypożycz</a></li>
+                    <li><a href="#">Zwróć</a></li>
+                </ul>
+            </li>
+            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Nowy<span class="caret"></span> </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Autor</a></li>
+                    <li class="active"><a href="#">Książka</a></li>
+                    <li><a href="#">Egzemplarz</a></li>
+                </ul>
+            </li>
+            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Wyszukaj<span class="caret"></span> </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Egzemplarz</a></li>
+                    <li><a href="#">Czytelnik</a></li>
+                    <li><a href="#">Wypożyczenia</a></li>
+                    <li><a href="#">Rezerwacje</a></li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class = "container-fluid" style = "margin-top:50px">
+    <div class = "row">
+        <div class = "col-sm-10 col-md-9 col-md-offset-1 main">
+            <div class = "page-header">
+                <h1>Biblioteka</h1>
+            </div>
+
+            <h3 class = "sub-header">Nowa książka</h3>
+            <br>
+
+            <form>
+                <div class = "form-group">
+                    <label for="authorname">Imię autora:</label>
+                    <input type = "authorname" class = "form-control" id = "authorname">
+                </div>
+                <div class = "form-group">
+                    <label for="authorsurname">Nazwisko autora:</label>
+                    <input type = "authorsurname" class = "form-control" id = "authorsurname">
+                </div>
+                <div class = "btn-group">
+                    <button id = "authorok" type = "submit" class = "btn btn-default">OK</button>
+                </div>
+                <br>
+                <hr>
+                <div class = "form-group">
+                    <label for="glist">Gatunek:</label>
+                    <select class="form-control" id="glist">
+                        <option>biografia</option>
+                        <option>dzieci</option>
+                        <option>mlodziez</option>
+                        <option>encyklopedia</option>
+                        <option>fantastyka</option>
+                        <option>filozofia</option>
+                        <option>historia</option>
+                        <option>poezja</option>
+                        <option>lpiekna</option>
+                        <option>lfaktu</option>
+                        <option>obyczajowa</option>
+                        <option>romans</option>
+                        <option>sensacja</option>
+                        <option>kryminal</option>
+                        <option>thriller</option>
+                        <option>horror</option>
+                    </select>
+                </div>
+                <div class = "btn-group">
+                    <button id = "genreok" type = "submit" class = "btn btn-default">OK</button>
+                </div>
+                <br>
+                <hr>
+                <div class = "form-group">
+                    <label for="isbn">Nr ISBN:</label>
+                    <input type = "isbn" class = "form-control" id = "isbn">
+                </div>
+                <div class = "form-group">
+                    <label for="title">Tytuł:</label>
+                    <input type = "title" class = "form-control" id = "title">
+                </div>
+                <div class = "form-group">
+                    <label for="authorid">ID autora:</label>
+                    <input type = "authorid" class = "form-control" id = "authorid" disabled>
+                </div>
+                <div class = "form-group">
+                    <label for="pages">Ilość stron:</label>
+                    <input type = "pages" class = "form-control" id = "pages">
+                </div>
+                <div class = "form-group">
+                    <label for="genreid">ID gatunku:</label>
+                    <input type = "genreid" class = "form-control" id = "genreid" disabled>
+                </div>
+                <div class = "form-group">
+                    <label for="publisher">Wydawnictwo:</label>
+                    <input type = "publisher" class = "form-control" id = "publisher">
+                </div>
+                <div class = "btn-group">
+                    <button id = "add" type = "submit" class = "btn btn-default">Add</button>
+                </div>
+
+            </form>
+            <br>
+
+            <div id="response">
+                <pre></pre>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#genreok').click(function (event) {
+            event.preventDefault();
+            var genre = $('#glist option:selected').text();
+            var url = 'http://localhost:8080/genres/find/' + genre;
+            $.ajax({
+                url: url,
+                error: function() {
+                    $('#info').html('<p>An error has occurred</p>');
+                },
+                dataType: 'json',
+                success: function(data){
+                    $('#genreid').val(data.genreid);
+
+                },
+                type: 'GET'
+            });
+
+        });
+        $('#authorok').click(function (event) {
+            event.preventDefault();
+            var aname = $('#authorname').val();
+            var asurname = $('#authorsurname').val();
+            var url = 'http://localhost:8080/authors/'+aname+'/'+asurname;
+            $.ajax({
+                url: url,
+                error: function() {
+                    $('#info').html('<p>An error has occurred</p>');
+                },
+                dataType: 'json',
+                success: function(data){
+                    $('#authorid').val(data.authorid);
+                },
+                type: 'GET'
+            })
+        });
+        $('#add').click(function (event) {
+            event.preventDefault();
+            var postData = {
+                isbn: $('#isbn').val(),
+                title: $('#title').val(),
+                authorid: $('#authorid').val(),
+                pages: $('#pages').val(),
+                genreid: $('#genreid').val(),
+                publisher: $('#publisher').val()
+            };
+
+            $.ajax({
+                url: 'http://localhost:8080/book/create',
+                dataType: 'json',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(postData),
+                processData: false,
+                success: function (data, textStatus, jQxhr) {
+                    $('#response pre').html(JSON.stringify(data));
+                },
+                error: function (jqXhr,textStatus,errorThrown) {
+                    console.log(errorThrown);
+                }
+
+            })
+        })
+    });
+
+</script>
+
+</body>
+</html>
