@@ -62,7 +62,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<BookDTO> findBookByAuthor(String author) {
-        String[] authorSplit = author.split("_");
+        String[] authorSplit = author.split(" ");
         String authorName = authorSplit[0];
         String authorSurname = authorSplit[1];
         AuthorEntity findAuthor = authorRepository.findByAuthorNameAndAuthorSurname(authorName,authorSurname);

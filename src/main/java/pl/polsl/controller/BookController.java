@@ -28,7 +28,7 @@ public class BookController {
     @RequestMapping(value = "/create",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BookDTO> saveBook(@RequestBody BookDTO book){
         BookDTO createdBook = bookService.createBook(book);
-        return new ResponseEntity<BookDTO>(createdBook, HttpStatus.OK);
+        return new ResponseEntity<BookDTO>(createdBook, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

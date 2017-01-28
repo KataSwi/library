@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Użytkownik</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class = "navbar navbar-inverse navbar-fixed-top">
+    <div class = "container-fluid">
+        <div class = "navbar-header">
+            <a class = "navbar-brand" href = "#">Biblioteka</a>
+        </div>
+        <ul class = "nav navbar-nav">
+            <li><a href = "#">Home</a></li>
+            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Użytkownik<span class="caret"></span> </a>
+                <ul class="dropdown-menu">
+                    <li><a href="readerBorrowings.html">Wypożyczenia</a></li>
+                    <li><a href="readerReservations.html">Rezerwacje</a></li>
+                    <li><a href="expiredBooks.html">Po terminie</a> </li>
+                    <li class="active"><a href="prolongateBook.html">Prolonguj</a> </li>
+                </ul>
+            </li>
+            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Książki<span class="caret"></span> </a>
+                <ul class="dropdown-menu">
+                    <li><a href="reserveBook.html">Rezerwuj</a></li>
+                    <li><a href="searchBook.html">Wyszukaj</a></li>
+                    <li><a href="#">Propozycje</a> </li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class = "container-fluid" style = "margin-top:50px">
+    <div class = "row">
+        <div class = "col-sm-10 col-md-9 col-md-offset-1 main">
+            <div class = "page-header">
+                <h1>Biblioteka</h1>
+            </div>
+
+            <h3 class = "sub-header">Prolonguj</h3>
+            <br>
+
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for ="inventory">Nr inwentarza:</label>
+                    <input type="inventory" class="form-control" id = "inventory">
+                    <button class="btn btn-default" type="submit" id = find>Przedłuż</button>
+                </div>
+                <br>
+            </form>
+            <br>
+            <div id="response">
+                <pre></pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#find').click(function (event) {
+            event.preventDefault();
+            var inventory = $('#inventory').val();
+            var url = 'http://localhost:8080/borrowed/prolongate/' + inventory;
+            $.ajax({
+                url: url,
+                error: function() {
+                    $('#info').html('<p>An error has occurred</p>');
+                },
+                dataType: 'json',
+                cache: false,
+                success: function (data) {
+                    $('#result').empty();
+                    $('#response pre').html(JSON.stringify(data));
+                },
+                type: 'POST'
+            });
+            $('#inventory').val("");
+        });
+    });
+
+</script>
+
+</body>
+</html>

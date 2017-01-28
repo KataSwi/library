@@ -24,27 +24,6 @@
         </div>
         <ul class = "nav navbar-nav">
             <li><a href = "#">Home</a></li>
-            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Akcje<span class="caret"></span> </a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Wypożycz</a></li>
-                    <li><a href="#">Zwróć</a></li>
-                </ul>
-            </li>
-            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Nowy<span class="caret"></span> </a>
-                <ul class="dropdown-menu">
-                    <li class="active"><a href="#">Autor</a></li>
-                    <li><a href="#">Książka</a></li>
-                    <li><a href="#">Egzemplarz</a></li>
-                </ul>
-            </li>
-            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Wyszukaj<span class="caret"></span> </a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Egzemplarz</a></li>
-                    <li><a href="#">Czytelnik</a></li>
-                    <li><a href="#">Wypożyczenia</a></li>
-                    <li><a href="#">Rezerwacje</a></li>
-                </ul>
-            </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
@@ -61,7 +40,7 @@
 
             <h3 class = "sub-header">Katalog</h3>
             <br>
-            <table class="data-users-js table table-hover" >
+            <table class="data-users-js table table-hover" id="books" >
                 <thead>
                 <tr>
                     <th>ISBN</th>
@@ -81,6 +60,19 @@
                 <pre></pre>
             </div>
 
+            <table class="data-users-js table table-hover" id = "bookcopies" >
+                <thead>
+                <tr>
+                    <th>Nr inwentarza</th>
+                    <th>Title</th>
+                    <th>Stan</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+
         </div>
     </div>
 </div>
@@ -98,8 +90,8 @@
             dataType: 'json',
             success: function (data) {
                 $.each(data,function (i,book) {
-                    $(".data-users-js").append(
-                            "<tr><td class='nr'>" + book.isbn + "</td>" + "<td>" + book.title + "</td>"+"<td>"+book.authorDTO.authorName+" "+book.authorDTO.authorSurname+"</td>"+"<td>"+book.pages+"</td>"+"<td>"+book.genreDTO.type+"</td>"+"<td>"+book.publisher+"</td><td><button class='use-adress' type='button'/></td></tr>"
+                    $("#books").append(
+                            "<tr><td class='nr'>" + book.isbn + "</td>" + "<td>" + book.title + "</td>"+"<td>"+book.authorDTO.authorName+" "+book.authorDTO.authorSurname+"</td>"+"<td>"+book.pages+"</td>"+"<td>"+book.genreDTO.type+"</td>"+"<td>"+book.publisher+"</td><td><button class='use-adress' type='button'>Click</button></td></tr>"
                     );
                 });
                 $(".use-adress").click(function () {
@@ -114,7 +106,9 @@
                         dataType: 'json',
                         success: function (data) {
                             $.each(data,function (i,copies) {
-                                $("#wynik pre").html(JSON.stringify(copies,i))
+                                $("#bookcopies").append(
+                                        "<tr><td>" + copies.inventory + "</td>" + "<td>" + copies.bookDTO.title + "</td>"+"<td>"+ copies.stateDTO.state + "</td></tr>"
+                                );
                             })
                         },
                         type: 'GET'

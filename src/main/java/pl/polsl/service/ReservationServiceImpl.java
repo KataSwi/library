@@ -34,4 +34,10 @@ public class ReservationServiceImpl implements ReservationService {
         List<ReservationDTO> reservationDTOs = libraryMapper.toReservationDTOList(reservationEntities);
         return reservationDTOs;
     }
+
+    @Override
+    public ReservationDTO findUserReservationById(int reservationid, int state) {
+        ReservationEntity reservationEntity = reservationRepository.findByReservationidAndReservationState(reservationid,state);
+        return libraryMapper.toReservationDTO(reservationEntity);
+    }
 }

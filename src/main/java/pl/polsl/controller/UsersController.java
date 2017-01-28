@@ -30,19 +30,19 @@ public class UsersController {
     @RequestMapping(value = "/admin/create",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO user){
         UserDTO createdUser = userService.createUser(user);
-        return new ResponseEntity<UserDTO>(createdUser, HttpStatus.OK);
+        return new ResponseEntity<UserDTO>(createdUser, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/reader/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ReaderDTO> createReader(@RequestBody ReaderDTO readerDTO){
         ReaderDTO createdReader = userService.createReader(readerDTO);
-        return new ResponseEntity<ReaderDTO>(createdReader,HttpStatus.OK);
+        return new ResponseEntity<ReaderDTO>(createdReader,HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/librarian/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<LibrarianDTO> createLibrarian(@RequestBody LibrarianDTO librarianDTO){
         LibrarianDTO createdLibrarian = userService.createLibrarian(librarianDTO);
-        return new ResponseEntity<LibrarianDTO>(createdLibrarian,HttpStatus.OK);
+        return new ResponseEntity<LibrarianDTO>(createdLibrarian,HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

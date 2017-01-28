@@ -10,4 +10,5 @@ import java.util.List;
 public interface ReservationService {
     List<ReservationDTO> findAllReservations();
     List<ReservationDTO> findUserReservations(long readerCard);
+    ReservationDTO findUserReservationById(int reservationid, int state);
 }

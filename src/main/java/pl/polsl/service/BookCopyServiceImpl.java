@@ -107,6 +107,9 @@ public class BookCopyServiceImpl implements BookCopyService {
             if(reservationEntity == null){
                 return null;
             }
+
+            reservationEntity.setReservationState(0);
+            reservationEntity = reservationRepository.save(reservationEntity);
         }
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -125,12 +128,21 @@ public class BookCopyServiceImpl implements BookCopyService {
         }
         ReservationEntity newReservation = libraryMapper.toReservationEntity(reservationDTO);
         BookcopyEntity bookcopyEntity = bookCopyRepository.findByInventory(newReservation.getReservedBook());
+        ReservationEntity reservationEntity = reservationRepository.findByReaderCardAndReservedBook(newReservation.getReaderCard(),newReservation.getReservedBook());
 
-        if((bookcopyEntity.getState() == 2) || (bookcopyEntity.getState() == 3)){
+        if(bookcopyEntity.getState() == 2){
             return null;
         }
+
+        if(bookcopyEntity.getState()==3){
+            if(reservationEntity == null){
+                return null;
+            }
+        }
+
         newReservation.setExpDate(setReservationExpDateTimestamp());
         setBookStatusAsReserved(newReservation.getReservedBook());
+        newReservation.setReservationState(1);
         newReservation = reservationRepository.save(newReservation);
         return libraryMapper.toReservationDTO(newReservation);
     }

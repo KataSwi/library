@@ -29,7 +29,7 @@ public class AuthorController {
     @RequestMapping(value = "/create",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AuthorDTO> createAuthor(@RequestBody AuthorDTO author){
         AuthorDTO createdAuthor = authorService.create(author);
-        return new ResponseEntity<AuthorDTO>(createdAuthor,HttpStatus.OK);
+        return new ResponseEntity<AuthorDTO>(createdAuthor,HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

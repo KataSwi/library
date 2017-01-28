@@ -34,4 +34,10 @@ public class ReservationController {
         List<ReservationDTO> reservationDTOs = reservationService.findUserReservations(card);
         return new ResponseEntity<List<ReservationDTO>>(reservationDTOs,HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/id/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    private ResponseEntity<ReservationDTO> getUserReservation(@PathVariable("id") int id){
+        ReservationDTO reservationDTO = reservationService.findUserReservationById(id,1);
+        return new ResponseEntity<ReservationDTO>(reservationDTO,HttpStatus.OK);
+    }
 }

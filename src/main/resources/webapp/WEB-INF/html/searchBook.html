@@ -24,27 +24,6 @@
         </div>
         <ul class = "nav navbar-nav">
             <li><a href = "#">Home</a></li>
-            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Akcje<span class="caret"></span> </a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Wypożycz</a></li>
-                    <li><a href="#">Zwróć</a></li>
-                </ul>
-            </li>
-            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Nowy<span class="caret"></span> </a>
-                <ul class="dropdown-menu">
-                    <li class="active"><a href="#">Autor</a></li>
-                    <li><a href="#">Książka</a></li>
-                    <li><a href="#">Egzemplarz</a></li>
-                </ul>
-            </li>
-            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Wyszukaj<span class="caret"></span> </a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Egzemplarz</a></li>
-                    <li><a href="#">Czytelnik</a></li>
-                    <li><a href="#">Wypożyczenia</a></li>
-                    <li><a href="#">Rezerwacje</a></li>
-                </ul>
-            </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
@@ -96,21 +75,38 @@
                 </div>
             </form>
             <hr>
-            <table class="data-users-js table table-hover" >
+            <table class="data-users-js table table-hover" id="books">
                 <thead>
                 <tr>
                     <th>ISBN</th>
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>Pages</th>
-                    <th>Genre</th>
-                    <th>Publisher</th>
+                    <th>Tytuł</th>
+                    <th>Autor</th>
+                    <th>Strony</th>
+                    <th>Gatunek</th>
+                    <th>Wydawnictwo</th>
+                    <th>Egzemplarze</th>
                 </tr>
                 </thead>
                 <tbody id="result">
 
                 </tbody>
             </table>
+            <br>
+            <h3>Egzemplarze</h3>
+            <br>
+            <table class="data-users-js table table-hover" id = "bookcopies" >
+                <thead>
+                <tr>
+                    <th>Nr inwentarza</th>
+                    <th>Title</th>
+                    <th>Stan</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+
 
         </div>
     </div>
@@ -131,10 +127,31 @@
                 success: function (data) {
                     $('#result').empty();
                     $.each(data,function (i,book) {
-                        $(".data-users-js").append(
-                                "<tr><td>" + book.isbn + "</td>" + "<td>" + book.title + "</td>"+"<td>"+book.authorDTO.authorName+" "+book.authorDTO.authorSurname+"</td>"+"<td>"+book.pages+"</td>"+"<td>"+book.genreDTO.type+"</td>"+"<td>"+book.publisher+"</td></tr>"
+                        $("#books").append(
+                                "<tr><td class='nr'>" + book.isbn + "</td>" + "<td>" + book.title + "</td>"+"<td>"+book.authorDTO.authorName+" "+book.authorDTO.authorSurname+"</td>"+"<td>"+book.pages+"</td>"+"<td>"+book.genreDTO.type+"</td>"+"<td>"+book.publisher+"</td><td><button class='use-adress' type='button'>Click</button></td></tr>"
                         );
-                    })
+                    });
+                    $(".use-adress").click(function () {
+                        var $row = $(this).closest('tr');
+                        var text = $row.find('.nr').text();
+
+                        $.ajax({
+                            url: "http://localhost:8080/bookcopy/isbn/" + text,
+                            error: function() {
+                                $('#info').html('<p>An error has occurred</p>');
+                            },
+                            dataType: 'json',
+                            success: function (data) {
+                                $.each(data,function (i,copies) {
+                                    $("#bookcopies").append(
+                                            "<tr><td>" + copies.inventory + "</td>" + "<td>" + copies.bookDTO.title + "</td>"+"<td>"+ copies.stateDTO.state + "</td></tr>"
+                                    );
+                                })
+                            },
+                            type: 'GET'
+
+                        });
+                    });
                 },
                 type: 'GET'
             });
@@ -153,10 +170,31 @@
                 success: function (data) {
                     $('#result').empty();
                     $.each(data,function (i,book) {
-                        $(".data-users-js").append(
-                                "<tr><td>" + book.isbn + "</td>" + "<td>" + book.title + "</td>"+"<td>"+book.authorDTO.authorName+" "+book.authorDTO.authorSurname+"</td>"+"<td>"+book.pages+"</td>"+"<td>"+book.genreDTO.type+"</td>"+"<td>"+book.publisher+"</td></tr>"
+                        $("#books").append(
+                                "<tr><td class='nr'>" + book.isbn + "</td>" + "<td>" + book.title + "</td>"+"<td>"+book.authorDTO.authorName+" "+book.authorDTO.authorSurname+"</td>"+"<td>"+book.pages+"</td>"+"<td>"+book.genreDTO.type+"</td>"+"<td>"+book.publisher+"</td><td><button class='use-adress' type='button'>Click</button></td></tr>"
                         );
-                    })
+                    });
+                    $(".use-adress").click(function () {
+                        var $row = $(this).closest('tr');
+                        var text = $row.find('.nr').text();
+
+                        $.ajax({
+                            url: "http://localhost:8080/bookcopy/isbn/" + text,
+                            error: function() {
+                                $('#info').html('<p>An error has occurred</p>');
+                            },
+                            dataType: 'json',
+                            success: function (data) {
+                                $.each(data,function (i,copies) {
+                                    $("#bookcopies").append(
+                                            "<tr><td>" + copies.inventory + "</td>" + "<td>" + copies.bookDTO.title + "</td>"+"<td>"+ copies.stateDTO.state + "</td></tr>"
+                                    );
+                                })
+                            },
+                            type: 'GET'
+
+                        });
+                    });
                 },
                 type: 'GET'
             });
@@ -175,10 +213,31 @@
                 success: function (data) {
                     $('#result').empty();
                     $.each(data,function (i,book) {
-                        $(".data-users-js").append(
-                                "<tr><td>" + book.isbn + "</td>" + "<td>" + book.title + "</td>"+"<td>"+book.authorDTO.authorName+" "+book.authorDTO.authorSurname+"</td>"+"<td>"+book.pages+"</td>"+"<td>"+book.genreDTO.type+"</td>"+"<td>"+book.publisher+"</td></tr>"
+                        $("#books").append(
+                                "<tr><td class='nr'>" + book.isbn + "</td>" + "<td>" + book.title + "</td>"+"<td>"+book.authorDTO.authorName+" "+book.authorDTO.authorSurname+"</td>"+"<td>"+book.pages+"</td>"+"<td>"+book.genreDTO.type+"</td>"+"<td>"+book.publisher+"</td><td><button class='use-adress' type='button'>Click</button></td></tr>"
                         );
-                    })
+                    });
+                    $(".use-adress").click(function () {
+                        var $row = $(this).closest('tr');
+                        var text = $row.find('.nr').text();
+
+                        $.ajax({
+                            url: "http://localhost:8080/bookcopy/isbn/" + text,
+                            error: function() {
+                                $('#info').html('<p>An error has occurred</p>');
+                            },
+                            dataType: 'json',
+                            success: function (data) {
+                                $.each(data,function (i,copies) {
+                                    $("#bookcopies").append(
+                                            "<tr><td>" + copies.inventory + "</td>" + "<td>" + copies.bookDTO.title + "</td>"+"<td>"+ copies.stateDTO.state + "</td></tr>"
+                                    );
+                                })
+                            },
+                            type: 'GET'
+
+                        });
+                    });
                 },
                 type: 'GET'
             });

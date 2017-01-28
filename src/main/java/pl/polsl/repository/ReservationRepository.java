@@ -18,4 +18,5 @@ public interface ReservationRepository extends CrudRepository<ReservationEntity,
     List<ReservationEntity> findAll();
     List<ReservationEntity> findByReaderCard(long readerCard);
     ReservationEntity findByReaderCardAndReservedBook(long readerCard, long reservedBook);
+    ReservationEntity findByReservationidAndReservationState(int id, int state);
 }

@@ -31,7 +31,7 @@ public class BookCopyController {
     @RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BookCopyDTO> createBookCopy(@RequestBody BookCopyDTO bookCopyDTO){
         BookCopyDTO newCopy = bookCopyService.createBookCopy(bookCopyDTO);
-        return new ResponseEntity<BookCopyDTO>(newCopy, HttpStatus.OK);
+        return new ResponseEntity<BookCopyDTO>(newCopy, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

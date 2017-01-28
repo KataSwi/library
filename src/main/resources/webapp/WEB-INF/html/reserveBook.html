@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Użytkownik</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class = "navbar navbar-inverse navbar-fixed-top">
+    <div class = "container-fluid">
+        <div class = "navbar-header">
+            <a class = "navbar-brand" href = "#">Biblioteka</a>
+        </div>
+        <ul class = "nav navbar-nav">
+            <li><a href = "#">Home</a></li>
+            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Użytkownik<span class="caret"></span> </a>
+                <ul class="dropdown-menu">
+                    <li><a href="readerBorrowings.html">Wypożyczenia</a></li>
+                    <li><a href="readerReservations.html">Rezerwacje</a></li>
+                    <li><a href="expiredBooks.html">Po terminie</a> </li>
+                    <li><a href="prolongateBook.html">Prolonguj</a> </li>
+                </ul>
+            </li>
+            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Książki<span class="caret"></span> </a>
+                <ul class="dropdown-menu">
+                    <li class="active"><a href="reserveBook.html">Rezerwuj</a></li>
+                    <li><a href="searchBook.html">Wyszukaj</a></li>
+                    <li><a href="bookSuggestions.html">Propozycje</a> </li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class = "container-fluid" style = "margin-top:50px">
+    <div class = "row">
+        <div class = "col-sm-10 col-md-9 col-md-offset-1 main">
+            <div class = "page-header">
+                <h1>Biblioteka</h1>
+            </div>
+
+            <h3 class = "sub-header">Rezerwuj</h3>
+            <br>
+
+            <form>
+                <div class = "form-group">
+                    <label for="readercard">Card number:</label>
+                    <input type = "readercard" class = "form-control" id = "readercard">
+                </div>
+                <div class = "form-group">
+                    <label for="inventory">Inventory:</label>
+                    <input type = "inventory" class = "form-control" id = "inventory">
+                </div>
+                <div class = "btn-group">
+                    <button id = "confirm" type = "submit" class = "btn btn-default">Confirm</button>
+                </div>
+                <br>
+            </form>
+            <br>
+
+            <div id="response">
+                <pre></pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#confirm').click(function (event) {
+            event.preventDefault();
+            var postData = {
+                readerCard: $('#readercard').val(),
+                bookInventory: $('#inventory').val()
+            }
+            var url = 'http://localhost:8080/bookcopy/reserve/';
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(postData),
+                processData: false,
+                success: function (data, textStatus, jQxhr) {
+                    $('#response pre').html(JSON.stringify(data));
+                },
+                error: function (jqXhr,textStatus,errorThrown) {
+                    console.log(errorThrown);
+                }
+
+            });
+            $('#inventory').val("");
+            $('#readercard').val("");
+        });
+    });
+
+</script>
+
+</body>
+</html>
