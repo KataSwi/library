@@ -89,6 +89,7 @@
                 $('#info').html('<p>An error has occurred</p>');
             },
             dataType: 'json',
+            cache: false,
             success: function (data) {
                 $.each(data,function (i,user) {
                     $(".data-users-js").append(

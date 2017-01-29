@@ -46,6 +46,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDTO updateUser(UserDTO user) {
+        UsersEntity usersEntity = libraryMapper.toUsersEntity(user);
+        UsersEntity find = userRepository.findOne(usersEntity.getUserName());
+        if (find == null){
+            return null;
+        }
+        usersEntity = userRepository.save(usersEntity);
+        return libraryMapper.toUserDTO(usersEntity);
+    }
+
+    @Override
     public List<UserDTO> findAllUsers() {
         List<UsersEntity> users = userRepository.findAll();
         List<UserDTO> result = libraryMapper.toUserDTOList(users);
@@ -54,7 +65,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO findByUserUserName(String userName) {
-        UsersEntity user = userRepository.findByUserName(userName);
+        UsersEntity user = userRepository.findOne(userName);
         return libraryMapper.toUserDTO(user);
     }
 

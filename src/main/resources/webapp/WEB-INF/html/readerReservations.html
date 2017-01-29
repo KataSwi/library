@@ -86,6 +86,18 @@
 </div>
 
 <script type="text/javascript">
+    function timeConverter(UNIX_timestamp){
+        var a = new Date(UNIX_timestamp);
+        var months = ['Styczeń','Luty','Marzec','Kwiecień','Maj','Czerwiec','Lipiec','Sierpień','Wrzesień','Październik','Listopad','Grudzień'];
+        var year = a.getFullYear();
+        var month = months[a.getMonth()];
+        var date = a.getDate();
+        var hour = a.getHours();
+        var min = a.getMinutes();
+        var sec = a.getSeconds();
+        var time = date + ' ' + month + ' ' + year ;
+        return time;
+    }
     $(document).ready(function () {
         $('#find').click(function (event) {
             event.preventDefault();
@@ -97,11 +109,12 @@
                     $('#info').html('<p>An error has occurred</p>');
                 },
                 dataType: 'json',
+                cache: false,
                 success: function (data) {
                     $('#result').empty();
                     $.each(data,function (i,book) {
                         $(".data-users-js").append(
-                                "<tr><td>" + book.reservationid + "</td>" +"<td>"+book.bookInventory+"</td>"+ "<td>" + book.bookCopyDTO.bookDTO.title + "</td>"+"<td>"+book.bookCopyDTO.bookDTO.authorDTO.authorName+" "+book.bookCopyDTO.bookDTO.authorDTO.authorSurname+"</td>"+"<td>"+book.expDate+"</td>"+"<td>"+book.state+"</td></tr>"
+                                "<tr><td>" + book.reservationid + "</td>" +"<td>"+book.bookInventory+"</td>"+ "<td>" + book.bookCopyDTO.bookDTO.title + "</td>"+"<td>"+book.bookCopyDTO.bookDTO.authorDTO.authorName+" "+book.bookCopyDTO.bookDTO.authorDTO.authorSurname+"</td>"+"<td>"+timeConverter(book.expDate)+"</td>"+"<td>"+book.state+"</td></tr>"
                         );
                     })
                 },

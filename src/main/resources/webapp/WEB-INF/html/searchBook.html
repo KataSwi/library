@@ -124,6 +124,7 @@
                     $('#info').html('<p>An error has occurred</p>');
                 },
                 dataType: 'json',
+                cache: false,
                 success: function (data) {
                     $('#result').empty();
                     $.each(data,function (i,book) {
@@ -141,6 +142,7 @@
                                 $('#info').html('<p>An error has occurred</p>');
                             },
                             dataType: 'json',
+                            cache: false,
                             success: function (data) {
                                 $.each(data,function (i,copies) {
                                     $("#bookcopies").append(
@@ -167,6 +169,7 @@
                     $('#info').html('<p>An error has occurred</p>');
                 },
                 dataType: 'json',
+                cache: false,
                 success: function (data) {
                     $('#result').empty();
                     $.each(data,function (i,book) {
@@ -184,6 +187,7 @@
                                 $('#info').html('<p>An error has occurred</p>');
                             },
                             dataType: 'json',
+                            cache: false,
                             success: function (data) {
                                 $.each(data,function (i,copies) {
                                     $("#bookcopies").append(
@@ -210,6 +214,7 @@
                     $('#info').html('<p>An error has occurred</p>');
                 },
                 dataType: 'json',
+                cache: false,
                 success: function (data) {
                     $('#result').empty();
                     $.each(data,function (i,book) {
@@ -227,6 +232,7 @@
                                 $('#info').html('<p>An error has occurred</p>');
                             },
                             dataType: 'json',
+                            cache: false,
                             success: function (data) {
                                 $.each(data,function (i,copies) {
                                     $("#bookcopies").append(

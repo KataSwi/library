@@ -16,6 +16,7 @@ import java.util.List;
 /**
  * Created by Katarzyna on 27.11.2016.
  */
+
 @RequestMapping(value = "/users")
 @RestController
 public class UsersController {
@@ -46,10 +47,22 @@ public class UsersController {
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
     public ResponseEntity<List<UserDTO>> getAllUsers(){
         List<UserDTO> allUsers = userService.findAllUsers();
         return new ResponseEntity<List<UserDTO>>(allUsers,HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/find/{username}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDTO> getUser(@PathVariable("username") String username){
+        UserDTO userDTO = userService.findByUserUserName(username);
+        return new ResponseEntity<UserDTO>(userDTO,HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO){
+        UserDTO updated = userService.updateUser(userDTO);
+        return new ResponseEntity<UserDTO>(updated,HttpStatus.OK);
+    }
+
 
 }

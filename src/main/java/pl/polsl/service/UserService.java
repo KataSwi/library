@@ -12,6 +12,7 @@ import java.util.List;
  */
 public interface UserService {
     UserDTO createUser(UserDTO user);
+    UserDTO updateUser(UserDTO user);
     List<UserDTO> findAllUsers();
     UserDTO findByUserUserName(String userName);
     List<UserDTO> findByUserSurname(String userSurname);

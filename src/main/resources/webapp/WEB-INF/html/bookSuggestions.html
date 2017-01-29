@@ -93,19 +93,32 @@
                 <br>
             </form>
             <br>
+            <table class="data-users-js table table-hover" id="gatunki">
+                <thead>
+                <tr>
+                    <th>Gatunek</th>
+                    <th>Książki</th>
+                </tr>
+                </thead>
+                <tbody id="wynik">
+
+                </tbody>
+            </table>
             <div id="response">
                 <pre></pre>
             </div>
             <br>
-            <table class="data-users-js table table-hover" >
+            <table class="data-users-js table table-hover" id="ksiazki">
                 <thead>
                 <tr>
-                    <th>Nr inwentarza</th>
+                <tr>
+                    <th>ISBN</th>
                     <th>Tytuł</th>
                     <th>Autor</th>
-                    <th>Data wypożyczenia</th>
-                    <th>Data zwrotu</th>
-                    <th>Status</th>
+                    <th>Strony</th>
+                    <th>Gatunek</th>
+                    <th>Wydawnictwo</th>
+                </tr>
                 </tr>
                 </thead>
                 <tbody id="result">
@@ -132,6 +145,34 @@
                 cache: false,
                 success: function (data) {
                     $('#response pre').html(JSON.stringify(data));
+                    $.each(data, function (i,genre) {
+                        $('#gatunki').append(
+                                "<tr><td class='nr'>"+genre.type+"</td><td><button class='use-adress' type='button'>Click</button></td></tr>"
+                        );
+
+                    });
+                    $(".use-adress").click(function(){
+                        var $row = $(this).closest('tr');
+                        var text = $row.find('.nr').text();
+
+                        $.ajax({
+                            url: "http://localhost:8080/book/genre/" + text,
+                            error: function() {
+                                $('#info').html('<p>An error has occurred</p>');
+                            },
+                            dataType: 'json',
+                            success: function (data) {
+                                $.each(data,function (i,book) {
+                                     $("#ksiazki").append(
+                                             "<tr><td>" + book.isbn + "</td>" + "<td>" + book.title + "</td>"+"<td>"+book.authorDTO.authorName+" "+book.authorDTO.authorSurname+"</td>"+"<td>"+book.pages+"</td>"+"<td>"+book.genreDTO.type+"</td>"+"<td>"+book.publisher+"</td></tr>"
+                                      );
+                                });
+                            },
+                            type: 'GET'
+
+                        });
+                    });
+
                 },
                 type: 'GET'
             });
